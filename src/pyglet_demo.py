@@ -4,6 +4,9 @@ from pyglet import clock
 from pyglet.window import Window
 
 from pyglet.resource import _default_loader
+
+from src import TiledTileLayer
+
 _default_loader.path= ['.maps',]
 _default_loader.reindex()
 
@@ -19,6 +22,9 @@ win = Window(width=640, height=480)
 fps_display = clock.ClockDisplay()
 
 tmx_data = load_pyglet('maps/test.tmx')
+layers = [layer for layer in tmx_data.visible_layers]
+tiles = layers[0].tiles()
+
 
 @win.event
 def on_key_press(symbol, modifiers):
@@ -29,7 +35,11 @@ def on_key_press(symbol, modifiers):
 def on_draw():
     win.clear()
     fps_display.draw()
-
+    for layer in layers:
+        if not isinstance(layer, TiledTileLayer):
+            continue
+        for x,y,image in layer.tiles():
+            image.blit(x,y)
 
 # Action
     #print('FPS is %f' % clock.get_fps())
