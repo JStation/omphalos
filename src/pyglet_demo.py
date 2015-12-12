@@ -3,6 +3,10 @@ import pyglet
 from pyglet import clock
 from pyglet.window import Window
 
+from pyglet.resource import _default_loader
+_default_loader.path= ['.maps',]
+_default_loader.reindex()
+
 from pytmx.util_pyglet import pyglet_image_loader, load_pyglet
 
 clock.set_fps_limit(60)
@@ -14,7 +18,7 @@ win = Window(width=640, height=480)
 # Entities
 fps_display = clock.ClockDisplay()
 
-tmx_data = load_pyglet('test.tmx')
+tmx_data = load_pyglet('maps/test.tmx')
 
 @win.event
 def on_key_press(symbol, modifiers):
