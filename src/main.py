@@ -1,4 +1,5 @@
 import pyglet
+from structures.power_plant import PowerPlant
 from tiledtmxloader import tmxreader
 from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
 from pyglet.gl import glTranslatef, glLoadIdentity
@@ -24,7 +25,7 @@ def on_draw():
     glLoadIdentity()
     # Move the "eye" to the current location on the map.
     # glTranslatef(delta[0], delta[1], 0.0)
-    glTranslatef(int(-mech.x+(window.width/2)-(mech.frame_size/2)), int(-mech.y+(window.height/2)-(mech.frame_size/2)), 0.0)
+    glTranslatef(int(-mech.x+(window.width/2)-(mech.frame_size[0]/2)), int(-mech.y+(window.height/2)-(mech.frame_size[1]/2)), 0.0)
 
     # TODO: [21:03]	thorbjorn: DR0ID_: You can generally determine the range of tiles that are visible before your drawing loop, which is much faster than looping over all tiles and checking whether it is visible for each of them.
     # [21:06]	DR0ID_: probably would have to rewrite the pyglet demo to use a similar render loop as you mentioned
@@ -39,6 +40,7 @@ def on_draw():
     # [21:09]	thorbjorn: Right, so maybe once for the bottom layers, then your complicated stuff, and then another time for the layers on top.
 
     batch.draw()
+    structures.draw()
     characters.draw()
 
 keys = pyglet.window.key.KeyStateHandler()
@@ -74,10 +76,14 @@ def update(dt):
 batch = pyglet.graphics.Batch()
 sprites = []
 characters = pyglet.graphics.Batch()
+structures = pyglet.graphics.Batch()
 to_update = set()
 
 mech = Mech(x=50,y=1500, batch=characters)
 to_update.add(mech)
+
+power_plant = PowerPlant(x=150,y=1500, batch=structures)
+to_update.add(power_plant)
 
 
 for group_num, layer in enumerate(world_map.layers):
