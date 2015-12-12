@@ -92,6 +92,14 @@ to_update = set()
 mech = Mech(x=50,y=1500,batch=characters)
 to_update.add(mech)
 
+mech_auto = Mech(x=50,y=1500,batch=characters)
+mech_auto.play('walk_se')
+to_update.add(mech_auto)
+
+mech_auto = Mech(x=50,y=1500,batch=characters)
+mech_auto.play('walk_s')
+to_update.add(mech_auto)
+
 for group_num, layer in enumerate(world_map.layers):
     if not layer.visible:
         continue
