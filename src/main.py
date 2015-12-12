@@ -6,6 +6,10 @@ from characters.mech import Mech
 
 MAP_FILE = "maps/test2.tmx"
 
+# Sounds
+pyglet.options['audio'] = ('openal', 'silent')
+bg_music = pyglet.media.load('assets/sound/bg_music.mp3', streaming=False)
+
 world_map = tmxreader.TileMapParser().parse_decode(MAP_FILE)
 
 # delta is the x/y position of the map view.
@@ -64,6 +68,8 @@ def update(dt):
         mech.play('walk_e')
     elif keys[pyglet.window.key.S]:
         mech.play('walk_s')
+    elif keys[pyglet.window.key.M]:
+        bg_music.play()
     else:
         mech.play('idle')
 
