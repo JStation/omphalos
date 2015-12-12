@@ -7,6 +7,14 @@ proof-of-concept for now and will improve on it in the future.
 Notice: slow!  no transparency!
 """
 import logging
+from time import sleep
+from pyglet.gl import GLException
+from pyglet.window import mouse
+from pyglet import clock
+from pymunk import Vec2d
+import pymunk as pm
+
+import numpy as np
 
 logger = logging.getLogger(__name__)
 ch = logging.StreamHandler()
@@ -28,9 +36,11 @@ class TiledRenderer(object):
         tm = load_pyglet(filename)
         self.camera = camera
         self.size = tm.width * tm.tilewidth, tm.height * tm.tileheight
+        self.tile_size = tm.tilewidth
         self.tmx_data = tm
         self.batches = []   # list of batches, e.g. layers
-        self.sprites = []   # container for tiles
+        self.sprites = []  # container for tiles
+        self.np_indexes = []
         self.generate_sprites()
 
     def draw_rect(self, color, rect, width):
@@ -38,6 +48,15 @@ class TiledRenderer(object):
 
     def draw_lines(self, color, closed, points, width):
         pass
+
+    def get_visible_sprites(self, sprites, start_x, start_y, end_x, end_y):
+        for sprite in sprites:
+            if start_x <= sprite.tile_coord['x'] <= end_x \
+                    and start_y <= sprite.tile_coord['y'] <= end_y:
+                sprite.visible = True
+                yield sprite
+            else:
+                sprite.visible = False
 
     def generate_sprites(self):
         tw = self.tmx_data.tilewidth
@@ -55,17 +74,28 @@ class TiledRenderer(object):
             batch = pyglet.graphics.Batch() # create a new batch
             self.batches.append(batch)      # add the batch to the list
             # draw map tile layers
+            np_index = np.zeros((100,100), np.int32)
+            self.np_indexes.append(np_index)
+
             if isinstance(layer, TiledTileLayer):
 
                 # iterate over the tiles in the layer
                 for x, y, image in layer.tiles():
+                    print(x,y)
+                    tile_coord = {
+                        'x':x,
+                        'y':y,
+                        'image':image
+                    }
                     y = mh - y
                     x = x * tw
                     y = y * th
                     sprite = pyglet.sprite.Sprite(
                         image, batch=batch, x=x, y=y
                     )
+                    sprite.tile_coord = tile_coord
                     self.sprites.append(sprite)
+                    np_index[tile_coord['x'],tile_coord['y']] = self.sprites.index(sprite)
 
             # draw object layers
             elif isinstance(layer, TiledObjectGroup):
@@ -80,7 +110,10 @@ class TiledRenderer(object):
 
                     # some object have an image
                     elif obj.image:
-                        obj.image.blit(obj.x, pixel_height - obj.y)
+                        try:
+                            obj.image.blit(obj.x, pixel_height - obj.y)
+                        except GLException: # Not sure this is being raised on Windows
+                            pass
 
                     # draw a rect for everything else
                     else:
@@ -97,7 +130,35 @@ class TiledRenderer(object):
                     )
                     self.sprites.append(sprite)
 
+
     def draw(self):
+        self.camera.move(0,-1)
+        start_x, start_y, end_x, end_y = self.camera.get_visible_range()
+
+        for index in self.np_indexes:
+            for x in range(start_x, end_x):
+                for y in range(start_y, end_y):
+                    sprite_id = index[x,y]
+                    if sprite_id > 0:
+                        sprite = self.sprites[sprite_id]
+                        _x,_y = self.camera.grid_to_px(sprite.tile_coord['x'], sprite.tile_coord['y'])
+                        sprite.x = _x
+                        sprite.y = _y
+
+        for b in self.batches:
+            b.draw()
+
+
+    def drawx(self):
+        self.camera.move(0,-1)
+        start_x, start_y, end_x, end_y = self.camera.get_visible_range()
+        for sprite in self.get_visible_sprites(self.sprites, start_x, start_y, end_x, end_y):
+            x,y = self.camera.grid_to_px(sprite.tile_coord['x'], sprite.tile_coord['y'])
+            sprite.x = x
+            sprite.y = y
+
+        self.camera.changed = False
+
         for b in self.batches:
             b.draw()
 
@@ -142,15 +203,37 @@ def all_filenames():
 class TestWindow(pyglet.window.Window):
     def __init__(self, *args, **kwargs):
         super(TestWindow, self).__init__(*args, **kwargs)
-        self.camera = Camera(600, 600,offset=(-30,0))
-
-    def on_draw(self):
+        self.alive = True
+        self.camera = Camera(1000, 1000, offset=(2,2))
+        #pm.init_pymunk()
+        self.mouse_body = pm.Body(pm.inf, pm.inf)
+        self.mouse_shape = pm.Circle(self.mouse_body, 3, Vec2d(0,0))
+        clock.set_fps_limit(60)
+        pyglet.clock.schedule_interval(self.update, 1.0/60.0)
+        self.fps_display = clock.ClockDisplay()
         if not hasattr(self, 'filenames'):
             self.filenames = all_filenames()
             self.next_map()
+        self.run()
 
+    # You need the dt argument there to prevent errors,
+    # it does nothing as far as I know.
+    def update(self, dt):
+        pass
+
+    def on_draw(self):
+        self.render()
+
+    def render(self):
         self.clear()
+        self.fps_display.draw()
         self.contents.draw()
+
+    def run(self):
+        while self.alive:
+            self.render()
+            event = self.dispatch_events()
+            sleep(1.0/60.0)
 
     def next_map(self):
         try:
@@ -160,22 +243,22 @@ class TestWindow(pyglet.window.Window):
 
     def on_key_press(self, symbol, mod):
         if symbol == pyglet.window.key.ESCAPE:
+            self.alive = False
             pyglet.app.exit()
         elif symbol == pyglet.window.key.RIGHT:
             print("right arrow")
-            self.camera.update(5,0)
+            self.camera.move(5,0)
         elif symbol == pyglet.window.key.LEFT:
             print("left")
-            self.camera.update(-5,0)
+            self.camera.move(-5,0)
         elif symbol == pyglet.window.key.DOWN:
             print("down")
-            self.camera.update(0,5)
+            self.camera.move(0,-5)
         elif symbol == pyglet.window.key.UP:
             print("up")
-            self.camera.update(0,-5)
+            self.camera.move(0,5)
         else:
             self.next_map()
-
 
 if __name__ == '__main__':
     window = TestWindow(1000, 1000)

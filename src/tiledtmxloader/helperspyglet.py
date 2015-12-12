@@ -40,6 +40,8 @@ Minimal OpenGL used. (Less of a learning curve.)
 #     * 1.2.2.3 instead of 1.2-rc (release candidate)
 #     * 1.2.3.0 instead of 1.2-r (commercial distribution)
 #     * 1.2.3.5 instead of 1.2-r5 (commercial distribution with many bug fixes)
+from characters.mech import Mech
+from pyglet.gl import *
 
 __revision__ = "$Rev: 115 $"
 __version__ = "3.0.0." + __revision__[6:-2]
@@ -209,6 +211,7 @@ def demo_pyglet(file_name):
         # [21:09]	thorbjorn: Right, so maybe once for the bottom layers, then your complicated stuff, and then another time for the layers on top.
 
         batch.draw()
+        characters.draw()
 
     keys = pyglet.window.key.KeyStateHandler()
     window.push_handlers(keys)
@@ -231,9 +234,38 @@ def demo_pyglet(file_name):
         if keys[pyglet.window.key.DOWN]:
             delta[1] += speed
 
+        if keys[pyglet.window.key.A] and keys[pyglet.window.key.W]:
+            mech.play('walk_nw')
+        elif keys[pyglet.window.key.W] and keys[pyglet.window.key.D]:
+            mech.play('walk_ne')
+        elif keys[pyglet.window.key.S] and keys[pyglet.window.key.D]:
+            mech.play('walk_se')
+        elif keys[pyglet.window.key.A] and keys[pyglet.window.key.S]:
+            mech.play('walk_sw')
+        elif keys[pyglet.window.key.A]:
+            mech.play('walk_w')
+        elif keys[pyglet.window.key.W]:
+            mech.play('walk_n')
+        elif keys[pyglet.window.key.D]:
+            mech.play('walk_e')
+        elif keys[pyglet.window.key.S]:
+            mech.play('walk_s')
+        else:
+            mech.play('idle')
+
+
+        for obj in to_update:
+            obj.update(dt)
+
     # Generate the graphics for every visible tile.
     batch = pyglet.graphics.Batch()
     sprites = []
+    characters = pyglet.graphics.Batch()
+    to_update = set()
+
+    mech = Mech((50,1500), characters, None)
+    to_update.add(mech)
+
     for group_num, layer in enumerate(world_map.layers):
         if not layer.visible:
             continue
@@ -255,6 +287,9 @@ def demo_pyglet(file_name):
                         world_map.tilewidth * xtile,
                         world_map.tileheight * (layer.height - ytile),
                         batch=batch, group=group))
+
+
+
 
     pyglet.clock.schedule_interval(update, frames_per_sec)
     pyglet.app.run()

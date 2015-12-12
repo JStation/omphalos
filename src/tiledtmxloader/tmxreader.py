@@ -470,8 +470,8 @@ class MapObjectGroupLayer(object):
         self.width = int(self.width)
         self.height = int(self.height)
         for map_obj in self.objects:
-            map_obj.x = int(map_obj.x)
-            map_obj.y = int(map_obj.y)
+            map_obj.x = int(float(map_obj.x))
+            map_obj.y = int(float(map_obj.y))
             map_obj.width = int(map_obj.width)
             map_obj.height = int(map_obj.height)
 
