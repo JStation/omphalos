@@ -155,10 +155,18 @@ class TestWindow(pyglet.window.Window):
     def on_key_press(self, symbol, mod):
         if symbol == pyglet.window.key.ESCAPE:
             pyglet.app.exit()
+        elif symbol == pyglet.window.key.RIGHT:
+            print("right arrow")
+        elif symbol == pyglet.window.key.LEFT:
+            print("left")
+        elif symbol == pyglet.window.key.DOWN:
+            print("down")
+        elif symbol == pyglet.window.key.UP:
+            print("up")
         else:
             self.next_map()
 
 
 if __name__ == '__main__':
-    window = TestWindow(600, 600)
+    window = TestWindow(1000, 1000)
     pyglet.app.run()
