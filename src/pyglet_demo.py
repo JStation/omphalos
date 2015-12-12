@@ -1,48 +1,34 @@
 # Import/Initialize
 import pyglet
-from pyglet import clock
-from pyglet.window import Window
 
-from pyglet.resource import _default_loader
+from tiledtmxloader import helperspyglet
 
-from src import TiledTileLayer
+#TODO: make relative path access work
+#_default_loader.path= ['.maps',]
+#_default_loader.reindex()
 
-_default_loader.path= ['.maps',]
-_default_loader.reindex()
-
-from pytmx.util_pyglet import pyglet_image_loader, load_pyglet
-
-clock.set_fps_limit(60)
 
 # Display
-win = Window(width=640, height=480)
+
 
 
 # Entities
-fps_display = clock.ClockDisplay()
-
-tmx_data = load_pyglet('maps/test.tmx')
-layers = [layer for layer in tmx_data.visible_layers]
-tiles = layers[0].tiles()
 
 
-@win.event
-def on_key_press(symbol, modifiers):
-    if symbol == pyglet.window.key.ESCAPE:
-            pyglet.app.exit()
 
-@win.event
-def on_draw():
-    win.clear()
-    fps_display.draw()
-    for layer in layers:
-        if not isinstance(layer, TiledTileLayer):
-            continue
-        for x,y,image in layer.tiles():
-            image.blit(x,y)
+# @win.event
+# def on_key_press(symbol, modifiers):
+#     if symbol == pyglet.window.key.ESCAPE:
+#             pyglet.app.exit()
+#     elif symbol == pyglet.window.key.T:
+#             print("t has been pressed")
+
+# @win.event
+# def on_draw():
+#     pass
 
 # Action
     #print('FPS is %f' % clock.get_fps())
 
 if __name__ == '__main__':
-    pyglet.app.run()
+    helperspyglet.demo_pyglet('maps/test2.tmx')

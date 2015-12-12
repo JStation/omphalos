@@ -57,7 +57,7 @@ import os.path
 import pyglet
 
 import copy
-from . import tmxreader
+import tmxreader
 
 #  -----------------------------------------------------------------------------
 
@@ -273,6 +273,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         demo_pyglet(sys.argv[1])
     else:
+        demo_pyglet('../../../src/maps/test2.tmx')
         print(('Usage: python %s your_map.tmx' % os.path.basename(__file__)))
 
 
