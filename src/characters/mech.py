@@ -1,4 +1,4 @@
-from animation import Sequence, Frame
+from animation import ChainableAnimation
 from constants import ANIM_LOOP
 import pyglet
 from character import Character
@@ -7,64 +7,45 @@ image = pyglet.image.load('assets/characters/mech.png')
 
 
 class Mech(Character):
-    def __init__(self, position, batch, group=None):
-
+    def __init__(self, *args, **kwargs):
         frame_size = 64
+        fram_period = 0.024
         sequences = {
-            'idle': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(12*frame_size, 0, frame_size, frame_size),
-                        0, 0, batch=batch, group=group))
-            ], ANIM_LOOP),
-            'walk_sw': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 0, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
-            'walk_w': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 1*frame_size, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
-            'walk_nw': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 2*frame_size, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
-            'walk_n': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 3*frame_size, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
-            'walk_ne': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 4*frame_size, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
-            'walk_e': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 5*frame_size, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
-            'walk_se': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 6*frame_size, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
-            'walk_s': Sequence([
-                Frame(pyglet.sprite.Sprite(image.get_region(i*frame_size, 7*frame_size, frame_size, frame_size),
-                        0, 0, batch=batch, group=group)) for i in range(0,16)], ANIM_LOOP),
+            'idle': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(12*frame_size, 0, frame_size, frame_size), ], fram_period),
+            'walk_sw': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 0, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'walk_w': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'walk_nw': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 2*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'walk_n': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 3*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'walk_ne': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 4*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'walk_e': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 5*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'walk_se': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 6*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'walk_s': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 7*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
         }
-        super(Mech, self).__init__(position=position, sequences=sequences)
+        super(Mech, self).__init__(sequences, *args, **kwargs)
 
     def update(self, dt):
-        if self.sequence_name == 'walk_n':
+        if self._sequence_name == 'walk_n':
             self._dx = 0
             self._dy = self._speed
-        elif self.sequence_name == 'walk_ne':
+        elif self._sequence_name == 'walk_ne':
             self._dx = self._speed
             self._dy = self._speed
-        elif self.sequence_name == 'walk_e':
+        elif self._sequence_name == 'walk_e':
             self._dx = self._speed
             self._dy = 0
-        elif self.sequence_name == 'walk_se':
+        elif self._sequence_name == 'walk_se':
             self._dx = self._speed
             self._dy = -self._speed
-        elif self.sequence_name == 'walk_s':
+        elif self._sequence_name == 'walk_s':
             self._dx = 0
             self._dy = -self._speed
-        elif self.sequence_name == 'walk_sw':
+        elif self._sequence_name == 'walk_sw':
             self._dx = -self._speed
             self._dy = -self._speed
-        elif self.sequence_name == 'walk_w':
+        elif self._sequence_name == 'walk_w':
             self._dx = -self._speed
             self._dy = 0
-        elif self.sequence_name == 'walk_nw':
+        elif self._sequence_name == 'walk_nw':
             self._dx = -self._speed
             self._dy = self._speed
         else:

@@ -89,7 +89,7 @@ sprites = []
 characters = pyglet.graphics.Batch()
 to_update = set()
 
-mech = Mech((50,1500), characters, None)
+mech = Mech(x=50,y=1500,batch=characters)
 to_update.add(mech)
 
 for group_num, layer in enumerate(world_map.layers):
