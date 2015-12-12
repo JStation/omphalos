@@ -24,7 +24,7 @@ def on_draw():
     glLoadIdentity()
     # Move the "eye" to the current location on the map.
     # glTranslatef(delta[0], delta[1], 0.0)
-    glTranslatef(int(-mech.x+(window.width/2)), int(-mech.y+(window.height/2)), 0.0)
+    glTranslatef(int(-mech.x+(window.width/2)-(mech.frame_size/2)), int(-mech.y+(window.height/2)-(mech.frame_size/2)), 0.0)
 
     # TODO: [21:03]	thorbjorn: DR0ID_: You can generally determine the range of tiles that are visible before your drawing loop, which is much faster than looping over all tiles and checking whether it is visible for each of them.
     # [21:06]	DR0ID_: probably would have to rewrite the pyglet demo to use a similar render loop as you mentioned

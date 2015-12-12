@@ -8,18 +8,18 @@ image = pyglet.image.load('assets/characters/mech.png')
 
 class Mech(Character):
     def __init__(self, *args, **kwargs):
-        frame_size = 64
+        self.frame_size = 64
         fram_period = 0.024
         sequences = {
-            'idle': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(12*frame_size, 0, frame_size, frame_size), ], fram_period),
-            'walk_sw': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 0, frame_size, frame_size) for i in range(0,16)], fram_period),
-            'walk_w': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
-            'walk_nw': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 2*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
-            'walk_n': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 3*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
-            'walk_ne': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 4*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
-            'walk_e': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 5*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
-            'walk_se': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 6*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
-            'walk_s': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*frame_size, 7*frame_size, frame_size, frame_size) for i in range(0,16)], fram_period),
+            'idle': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(12*self.frame_size, 0, self.frame_size, self.frame_size), ], fram_period),
+            'walk_sw': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, 0, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
+            'walk_w': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, self.frame_size, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
+            'walk_nw': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, 2*self.frame_size, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
+            'walk_n': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, 3*self.frame_size, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
+            'walk_ne': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, 4*self.frame_size, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
+            'walk_e': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, 5*self.frame_size, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
+            'walk_se': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, 6*self.frame_size, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
+            'walk_s': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size, 7*self.frame_size, self.frame_size, self.frame_size) for i in range(0,16)], fram_period),
         }
         super(Mech, self).__init__(sequences, *args, **kwargs)
 
