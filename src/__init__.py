@@ -17,15 +17,16 @@ logger.setLevel(logging.INFO)
 from pytmx import *
 from pytmx.util_pyglet import load_pyglet
 import pyglet
-
+from camera import Camera
 
 class TiledRenderer(object):
     """
     Super simple way to render a tiled map with pyglet
     no shape drawing yet
     """
-    def __init__(self, filename):
+    def __init__(self, filename, camera):
         tm = load_pyglet(filename)
+        self.camera = camera
         self.size = tm.width * tm.tilewidth, tm.height * tm.tileheight
         self.tmx_data = tm
         self.batches = []   # list of batches, e.g. layers
@@ -102,7 +103,8 @@ class TiledRenderer(object):
 
 
 class SimpleTest(object):
-    def __init__(self, filename):
+    def __init__(self, filename, camera):
+        self.camera = camera
         self.renderer = None
         self.running = False
         self.dirty = False
@@ -110,7 +112,7 @@ class SimpleTest(object):
         self.load_map(filename)
 
     def load_map(self, filename):
-        self.renderer = TiledRenderer(filename)
+        self.renderer = TiledRenderer(filename, self.camera)
 
         logger.info("Objects in map:")
         for obj in self.renderer.tmx_data.objects:
@@ -138,6 +140,10 @@ def all_filenames():
 
 
 class TestWindow(pyglet.window.Window):
+    def __init__(self, *args, **kwargs):
+        super(TestWindow, self).__init__(*args, **kwargs)
+        self.camera = Camera(600, 600,offset=(-30,0))
+
     def on_draw(self):
         if not hasattr(self, 'filenames'):
             self.filenames = all_filenames()
@@ -148,7 +154,7 @@ class TestWindow(pyglet.window.Window):
 
     def next_map(self):
         try:
-            self.contents = SimpleTest(next(self.filenames))
+            self.contents = SimpleTest(next(self.filenames), self.camera)
         except StopIteration:
             pyglet.app.exit()
 
@@ -157,12 +163,16 @@ class TestWindow(pyglet.window.Window):
             pyglet.app.exit()
         elif symbol == pyglet.window.key.RIGHT:
             print("right arrow")
+            self.camera.update(5,0)
         elif symbol == pyglet.window.key.LEFT:
             print("left")
+            self.camera.update(-5,0)
         elif symbol == pyglet.window.key.DOWN:
             print("down")
+            self.camera.update(0,5)
         elif symbol == pyglet.window.key.UP:
             print("up")
+            self.camera.update(0,-5)
         else:
             self.next_map()
 

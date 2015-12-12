@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="2">
  <tileset firstgid="1" name="colony-db32-buildings-ready" tilewidth="16" tileheight="16" tilecount="2600">
   <image source="colony-db32-buildings-ready.png" width="320" height="2080"/>
  </tileset>
@@ -11,7 +11,7 @@
  </tileset>
  <layer name="ground" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMA6A1eID17zl4DgV7SVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV1T9QGmj7
+   eJzt0TsRgDAABcH0/ARQABoA/2oQQUccpH1Mttj+Zm5dSlkBOjBUY8MU0NmLrdobjoDOXviR45n9SPL6EcePLH5kOaur4Q7oBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA/+AAE2Gwx
   </data>
  </layer>
  <layer name="ground_2" width="100" height="100">
@@ -19,4 +19,7 @@
    eJzt3csRQEAURNHZ+4WAGJB/NIKwI4PZ0Tin6u2n5gbQpQC8UzOU0lauG55+5X+M119PlZv1uI0eOfZejySHHnH0yKJHluX667Vymx4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAi9gnz2LPNIseOeyTZ7FPnkePLHpksU8OAAAA33MCLAQhVQ==
   </data>
  </layer>
+ <objectgroup name="objects">
+  <object id="1" name="Testing" gid="93" x="34.5" y="52" width="16" height="16"/>
+ </objectgroup>
 </map>
