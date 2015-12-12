@@ -23,7 +23,9 @@ def on_draw():
     # Reset the "eye" back to the default location.
     glLoadIdentity()
     # Move the "eye" to the current location on the map.
-    glTranslatef(delta[0], delta[1], 0.0)
+    # glTranslatef(delta[0], delta[1], 0.0)
+    glTranslatef(int(-mech.x+(window.width/2)), (-mech.y+(window.height/2)), 0.0)
+
     # TODO: [21:03]	thorbjorn: DR0ID_: You can generally determine the range of tiles that are visible before your drawing loop, which is much faster than looping over all tiles and checking whether it is visible for each of them.
     # [21:06]	DR0ID_: probably would have to rewrite the pyglet demo to use a similar render loop as you mentioned
     # [21:06]	thorbjorn: Yeah.
@@ -44,22 +46,8 @@ window.push_handlers(keys)
 resources = ResourceLoaderPyglet()
 resources.load(world_map)
 
-def update(dt):
-    # The speed is 3 by default.
-    # When left Shift is held, the speed increases.
-    # The speed interpolates based on time passed, so the demo navigates
-    # at a reasonable pace even on huge maps.
-    speed = (3 + keys[pyglet.window.key.LSHIFT] * 6) * \
-            int(dt / frames_per_sec)
-    if keys[pyglet.window.key.LEFT]:
-        delta[0] += speed
-    if keys[pyglet.window.key.RIGHT]:
-        delta[0] -= speed
-    if keys[pyglet.window.key.UP]:
-        delta[1] -= speed
-    if keys[pyglet.window.key.DOWN]:
-        delta[1] += speed
 
+def update(dt):
     if keys[pyglet.window.key.A] and keys[pyglet.window.key.W]:
         mech.play('walk_nw')
     elif keys[pyglet.window.key.W] and keys[pyglet.window.key.D]:
@@ -79,7 +67,6 @@ def update(dt):
     else:
         mech.play('idle')
 
-
     for obj in to_update:
         obj.update(dt)
 
@@ -89,16 +76,9 @@ sprites = []
 characters = pyglet.graphics.Batch()
 to_update = set()
 
-mech = Mech(x=50,y=1500,batch=characters)
+mech = Mech(x=50,y=1500, batch=characters)
 to_update.add(mech)
 
-mech_auto = Mech(x=50,y=1500,batch=characters)
-mech_auto.play('walk_se')
-to_update.add(mech_auto)
-
-mech_auto = Mech(x=50,y=1500,batch=characters)
-mech_auto.play('walk_s')
-to_update.add(mech_auto)
 
 for group_num, layer in enumerate(world_map.layers):
     if not layer.visible:
