@@ -33,6 +33,9 @@ from pyglet.graphics import OrderedGroup
 from pyglet.sprite import Sprite
 from pyglet import gl
 
+import base64
+import zlib
+
 __all__ = ['Map', "TileLayer", "ObjectGroup",]
 
 def get_texture_sequence(filename, tilewidth=32, tileheight=32, margin=1, spacing=1, nearest=False):
@@ -68,6 +71,8 @@ class BaseLayer(object):
 
         self.data = data
         self.map = map
+
+        self.data['data'] = list(zlib.decompress(base64.b64decode(self.data['data'])))
 
         if self.data["visible"]:
             self.sprites = {}
