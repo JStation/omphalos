@@ -9,6 +9,8 @@ from characters.human import Human
 from ui import ui_manager
 from constants import WINDOW_WIDTH, WINDOW_HEIGHT
 
+from labels import MessageHandler
+
 from game import game
 
 MAP_FILE = "maps/test2.tmx"
@@ -16,9 +18,10 @@ FULLSCREEN_MODE = False
 # Sounds
 pyglet.options['audio'] = ('openal', 'silent')
 try:
-    pyglet.lib.load_library('lib/avbin.dll')
-    pyglet.have_avbin=True
-    bg_music = pyglet.media.load('assets/sound/bg_music.mp3', streaming=False)
+    pass
+    #pyglet.lib.load_library('lib/avbin.dll')
+    #pyglet.have_avbin=True
+    #bg_music = pyglet.media.load('assets/sound/bg_music.mp3', streaming=False)
 except (WAVEFormatException, ImportError):
     pass
 
@@ -63,6 +66,7 @@ def on_draw():
     game.humans.draw()
     game.structures.draw()
     game.characters.draw()
+    message_queue.draw()
 
     glLoadIdentity()
     glTranslatef(0, 0, 0.0)
@@ -101,7 +105,12 @@ def update(dt):
     elif keys[pyglet.window.key.S]:
         mech.play('walk_s')
     elif keys[pyglet.window.key.M]:
-        bg_music.play()
+        try:
+            bg_music.play()
+        except NameError:
+            pass
+    elif keys[pyglet.window.key.T]:
+        message_queue.create_message('Another Message!')
     else:
         mech.play('idle')
 
@@ -113,12 +122,20 @@ def upkeep(dt):
 
 game.to_update.add(ui_manager)
 
+
+# manually instantiated entities
 mech = Mech(x=50,y=1500, batch=game.characters)
 game.to_update.add(mech)
 
 for n in range(100):
     h = Human(x=360, y=1220, batch=game.humans)
     game.to_update.add(h)
+
+message_queue = MessageHandler(x=50, y=1500)
+game.to_update.add(message_queue)
+
+#test message
+message_queue.create_message("Omphalos 2217")
 
 for group_num, layer in enumerate(world_map.layers):
     if not layer.visible:
