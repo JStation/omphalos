@@ -86,6 +86,19 @@ def on_mouse_press(x, y, button, modifiers):
 def on_mouse_motion(x, y, dx, dy):
     ui_manager.on_mouse_motion(x, y, dx, dy)
 
+@window.event
+def on_key_release(symbol, modifiers):
+    if symbol == pyglet.window.key.T:
+        message_queue.create_message('Another Message!')
+    elif symbol == pyglet.window.key.M:
+        try:
+            bg_music.play()
+        except NameError:
+            print("AVBin not available for audio!")
+
+
+
+
 
 def update(dt):
     if keys[pyglet.window.key.A] and keys[pyglet.window.key.W]:
@@ -104,13 +117,6 @@ def update(dt):
         mech.play('walk_e')
     elif keys[pyglet.window.key.S]:
         mech.play('walk_s')
-    elif keys[pyglet.window.key.M]:
-        try:
-            bg_music.play()
-        except NameError:
-            pass
-    elif keys[pyglet.window.key.T]:
-        message_queue.create_message('Another Message!')
     else:
         mech.play('idle')
 
