@@ -1,0 +1,20 @@
+{
+  "id": "waste_disposal_plant",
+  "name": "Waste Disposal Plant",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "power": 1
+  },
+  "consumes": {
+    "waste": 1
+  },
+  "environment": {
+    "pollution": 5
+  },
+  "image":"assets/structures/waste-disposal-plant.png",
+  "width":72,
+  "height":37
+}

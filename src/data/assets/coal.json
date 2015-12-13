@@ -1,0 +1,9 @@
+{
+  "id":"coal",
+  "category":"raw_material",
+  "name":"Coal",
+  "description":"Coal from a Coal Extractor",
+  "price":25,
+  "traits":{
+  }
+}

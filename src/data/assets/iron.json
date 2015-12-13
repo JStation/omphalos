@@ -1,0 +1,9 @@
+{
+  "id":"iron",
+  "category":"processed_material",
+  "name":"Iron",
+  "description":"Iron Bar",
+  "price":300,
+  "traits":{
+  }
+}

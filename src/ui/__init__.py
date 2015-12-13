@@ -9,9 +9,6 @@ from pyglet_gui.manager import Manager
 from pyglet_gui.buttons import OneTimeButton
 from pyglet_gui.scrollable import Scrollable
 from pyglet_gui.containers import VerticalContainer
-import random
-from structures.iron_extractor import IronExtractor
-from structures.power_plant import PowerPlant
 from ui.themes import action_menu_theme, resource_menu_theme
 
 from game import game
@@ -173,9 +170,8 @@ class UIManager(object):
         self._resource_menu.render()
 
     def start_build_action(self, structure_id, **kwargs):
-        from structure import structure_classes
-        cls = structure_classes[structure_id]
-        self._build_action_instance = cls(x=0, y=0, batch=game.structures)
+        structure_factory = game.get_structure(structure_id)
+        self._build_action_instance = structure_factory.build(x=0, y=0, batch=game.structures)
         self._build_action_instance.opacity = 150
         game.to_update.add(self._build_action_instance)
 

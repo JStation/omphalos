@@ -1,0 +1,9 @@
+{
+  "id":"food_unhealthy",
+  "category":"primary",
+  "name":"Unhealthy Food",
+  "description":"Food that is unhealthy, but a lot easier to make.",
+  "price":5,
+  "traits":{
+  }
+}

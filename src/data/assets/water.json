@@ -1,0 +1,10 @@
+{
+  "id":"water",
+  "category":"primary",
+  "tracked":1,
+  "name":"Water",
+  "description":"Water",
+  "price":500,
+  "traits":{
+  }
+}

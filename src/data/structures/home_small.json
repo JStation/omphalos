@@ -1,0 +1,17 @@
+{
+  "id": "home_small",
+  "name": "Small Home",
+  "requires": {
+    "money": 1500,
+    "iron": 100
+  },
+  "consumes": {
+    "power": 0.3
+  },
+  "capacity": {
+    "humans": 2
+  },
+  "image":"assets/structures/home-small-a.png",
+  "width":27,
+  "height":38
+}

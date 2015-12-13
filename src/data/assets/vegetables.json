@@ -1,0 +1,9 @@
+{
+  "id":"vegetables",
+  "category":"raw_material",
+  "name":"Vegetables",
+  "description":"Vegetables.",
+  "price":25,
+  "traits":{
+  }
+}

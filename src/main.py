@@ -1,8 +1,6 @@
 import pyglet
 from pyglet.media.riff import WAVEFormatException
 from pyglet.gl import *
-from structures.iron_extractor import IronExtractor
-from structures.power_plant import PowerPlant
 from tiledtmxloader import tmxreader
 from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
 from pyglet.gl import glTranslatef, glLoadIdentity
@@ -118,24 +116,9 @@ game.to_update.add(ui_manager)
 mech = Mech(x=50,y=1500, batch=game.characters)
 game.to_update.add(mech)
 
-power_plant = PowerPlant(x=150,y=1500, batch=game.structures)
-game.to_update.add(power_plant)
-game.requires_upkeep.add(power_plant)
-
-power_plant = PowerPlant(x=250,y=1500, batch=game.structures)
-game.to_update.add(power_plant)
-game.requires_upkeep.add(power_plant)
-
-iron_extractor = IronExtractor(x=350,y=1200, batch=game.structures)
-game.to_update.add(iron_extractor)
-game.requires_upkeep.add(iron_extractor)
-
 for n in range(100):
     h = Human(x=360, y=1220, batch=game.humans)
     game.to_update.add(h)
-# h = Human(x=100, y=1500, batch=humans)
-# to_update.add(h)
-
 
 for group_num, layer in enumerate(world_map.layers):
     if not layer.visible:

@@ -1,0 +1,9 @@
+{
+  "id":"food_processed",
+  "category":"processed_material",
+  "name":"Processed Food",
+  "description":"Food that's ready to be made into something edible.",
+  "price":25,
+  "traits":{
+  }
+}

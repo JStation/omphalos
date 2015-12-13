@@ -1,0 +1,20 @@
+{
+  "id": "iron_processing_facility",
+  "name": "Iron Processing Facility",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "iron": 1
+  },
+  "consumes": {
+    "iron_ore": 2
+  },
+  "environment": {
+    "pollution": 2
+  },
+  "image":"assets/structures/water-filtration-facility.png",
+  "width":44,
+  "height":52
+}

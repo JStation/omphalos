@@ -1,0 +1,17 @@
+{
+  "id": "atmosphere_generator",
+  "name": "Atmosphere Generator",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "consumes": {
+    "power": 1
+  },
+  "environment": {
+    "atmosphere": 0.1
+  },
+  "image":"assets/structures/atmosphere-generator.png",
+  "width":43,
+  "height":34
+}

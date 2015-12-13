@@ -1,0 +1,20 @@
+{
+  "id": "restaurant_fast_food",
+  "name": "Atmosphere Generator",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "food_unhealthy": 10
+  },
+  "consumes": {
+    "food_processed": 1
+  },
+  "environment": {
+    "pollution": 0.1
+  },
+  "image":"assets/structures/restaurant-fast-food.png",
+  "width":48,
+  "height":42
+}

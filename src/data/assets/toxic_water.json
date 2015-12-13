@@ -1,0 +1,9 @@
+{
+  "id":"toxic_water",
+  "category":"raw_material",
+  "name":"Toxic Water",
+  "description":"Water that is not yet safe to drink.",
+  "price":10,
+  "traits":{
+  }
+}

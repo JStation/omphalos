@@ -1,19 +1,25 @@
 import json
+from environment import Environment, EnvironmentVariable
 import os
 from asset import Asset
 from player import Player
 import pyglet
-
+from structure import StructureFactory
 
 class Game(object):
     PATH_ASSETS = 'data/assets/'
+    PATH_ENVIRONMENT_VARIABLES = 'data/environment/'
+    PATH_STRUCTURES = 'data/structures/'
 
     def __init__(self):
         self._assets = set()
+        self._structure_builders = set()
+        self._environment = Environment(self._get_environment_variables())
         self._player = Player()
         self._ui_actions = []
 
         self._load_assets()
+        self._load_structures()
 
         self._to_update = set()
         self._requires_upkeep = set()
@@ -24,9 +30,16 @@ class Game(object):
         self._structures = pyglet.graphics.Batch()
         self._sprites = []
 
+        # Default Player Assets
+        self._player.add_asset('power', 500)
+
     @property
     def player(self):
         return self._player
+
+    @property
+    def environment(self):
+        return self._environment
 
     @property
     def requires_upkeep(self):
@@ -73,6 +86,21 @@ class Game(object):
             if asset_id == asset.asset_id:
                 return asset
         return None
+
+    def _load_structures(self):
+        for structure in Game.load_json_objects(self.PATH_STRUCTURES):
+            self._structure_builders.add(StructureFactory.from_json(structure))
+
+    def get_structure(self, structure_id):
+        for structure in self._structure_builders:
+            if structure_id == structure.structure_id:
+                return structure
+
+    def _get_environment_variables(self):
+        variables = set()
+        for variable in Game.load_json_objects(self.PATH_ENVIRONMENT_VARIABLES):
+            variables.add(EnvironmentVariable.from_json(variable))
+        return variables
 
     @staticmethod
     def load_json_objects(json_path):

@@ -1,0 +1,20 @@
+{
+  "id": "toxic_water_extractor",
+  "name": "Toxic Water Extractor",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "toxic_water": 5
+  },
+  "consumes": {
+    "power": 1
+  },
+  "environment": {
+    "pollution": 3
+  },
+  "image":"assets/structures/toxic-water-extractor.png",
+  "width":72,
+  "height":46
+}

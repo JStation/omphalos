@@ -1,0 +1,17 @@
+{
+  "id": "home_medium",
+  "name": "Medium Home",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "consumes": {
+    "power": 0.5
+  },
+  "capacity": {
+    "humans": 4
+  },
+  "image":"assets/structures/home-medium-a.png",
+  "width":32,
+  "height":46
+}

@@ -1,0 +1,9 @@
+{
+  "id":"food_healthy",
+  "category":"primary",
+  "name":"Healthy Food",
+  "description":"Food that is very healthy, but a lot harder to make.",
+  "price":25,
+  "traits":{
+  }
+}

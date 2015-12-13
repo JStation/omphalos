@@ -1,0 +1,20 @@
+{
+  "id": "vegetable_processing_plant",
+  "name": "Vegetable Processing Plant",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "food_processed": 10
+  },
+  "consumes": {
+    "vegetables": 1
+  },
+  "environment": {
+    "pollution": 0.1
+  },
+  "image":"assets/structures/vegetable-processing-plant.png",
+  "width":48,
+  "height":59
+}

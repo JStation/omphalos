@@ -1,0 +1,25 @@
+{
+  "id": "coal_extractor",
+  "name": "Coal Extractor",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "coal": 5
+  },
+  "consumes": {
+    "power": 1
+  },
+  "environment": {
+    "pollution": 1
+  },
+  "image":"assets/structures/iron-extractor.png",
+  "width":40,
+  "height":64,
+  "animation_speed": 5,
+  "animations":{
+    "idle":3,
+    "inactive":2
+  }
+}

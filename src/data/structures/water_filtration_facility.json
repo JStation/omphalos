@@ -1,0 +1,20 @@
+{
+  "id": "water_filtration_facility",
+  "name": "Water Filtration Facility",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "water": 1
+  },
+  "consumes": {
+    "toxic_water": 2
+  },
+  "environment": {
+    "pollution": 2
+  },
+  "image":"assets/structures/water-filtration-facility.png",
+  "width":44,
+  "height":52
+}

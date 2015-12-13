@@ -8,30 +8,23 @@
         "type": "parent",
         "options": [
           {
-            "label": "Build Solar Panel",
-            "type": "build_action",
-            "kwargs": {
-              "structure_id":"solar_panel"
-            }
-          },
-          {
-            "label": "Build Wind Turbine",
-            "type": "build_action",
-            "kwargs": {
-              "structure_id":"wind_turbine"
-            }
-          },
-          {
             "label": "Build Coal Power Plant",
             "type": "build_action",
             "kwargs": {
               "structure_id":"coal_power_plant"
             }
+        },
+        {
+            "label": "Waste Disposal Plant",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"waste_disposal_plant"
+            }
           }
         ]
       },
       {
-        "label": "Mineral Harvesting",
+        "label": "Mineral Harvesting/Processing",
         "type": "parent",
         "options": [
           {
@@ -39,6 +32,20 @@
             "type": "build_action",
             "kwargs": {
               "structure_id":"iron_extractor"
+            }
+          },
+          {
+            "label": "Build Coal Extractor",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"coal_extractor"
+            }
+          },
+          {
+            "label": "Iron Processing Facility",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"iron_processing_facility"
             }
           }
         ]

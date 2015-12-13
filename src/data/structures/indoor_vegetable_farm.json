@@ -1,0 +1,20 @@
+{
+  "id": "indoor_vegetable_farm",
+  "name": "Indoor Vegetable Farm",
+  "requires": {
+    "money": 2500,
+    "iron": 100
+  },
+  "produces": {
+    "vegetables": 5
+  },
+  "consumes": {
+    "power": 1
+  },
+  "environment": {
+    "pollution": -0.5
+  },
+  "image":"assets/structures/indoor-vegetable-farm.png",
+  "width":48,
+  "height":40
+}

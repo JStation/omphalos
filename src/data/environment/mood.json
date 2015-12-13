@@ -1,0 +1,7 @@
+{
+  "id":"mood",
+  "name":"Mood/Happiness",
+  "max": 100,
+  "min": 1,
+  "description":"Mood/Happiness of Settlement."
+}
