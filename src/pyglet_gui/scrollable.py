@@ -166,6 +166,9 @@ class Scrollable(Wrapper, Controller, ControllerManager):
             self._manager.set_wheel_target(self._vscrollbar)
 
     def on_lose_highlight(self):
+        if not self._manager:
+            print('What the?')
+            return
         self._manager.set_wheel_target(None)
         self._manager.set_wheel_hint(None)
 

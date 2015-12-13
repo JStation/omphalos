@@ -399,7 +399,10 @@ class Wrapper(Container):
 
     @property
     def content(self):
-        return self._content[0]
+        try:
+            return self._content[0]
+        except IndexError:
+            return None
 
     @content.setter
     def content(self, content):

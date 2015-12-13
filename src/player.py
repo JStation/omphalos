@@ -27,6 +27,10 @@ class Player(object):
     def money(self):
         return self._money
 
+    @property
+    def assets(self):
+        return self._assets
+
     def get_asset(self, asset_id):
         for a in self._assets:
             if asset_id == a.asset_id:
@@ -59,9 +63,10 @@ class Player(object):
 
 
 class PlayerAsset(object):
-    def __init__(self, asset_id, quantity):
+    def __init__(self, asset_id, quantity, tracked=False):
         self._asset_id = asset_id
         self._quantity = quantity
+        self._tracked = tracked
 
     def __add__(self, quantity):
         self.add(quantity)
@@ -84,3 +89,11 @@ class PlayerAsset(object):
     @property
     def quantity(self):
         return self._quantity
+
+    @property
+    def tracked(self):
+        return self._tracked
+
+    @tracked.setter
+    def tracked(self, tracked):
+        self._tracked = tracked

@@ -1,0 +1,80 @@
+[
+  {
+    "label": "Build",
+    "type":"root",
+    "options": [
+      {
+        "label": "Power",
+        "type": "parent",
+        "options": [
+          {
+            "label": "Build Solar Panel",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"solar_panel"
+            }
+          },
+          {
+            "label": "Build Wind Turbine",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"wind_turbine"
+            }
+          },
+          {
+            "label": "Coal Power Plant",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"coal_power_plant"
+            }
+          }
+        ]
+      },
+      {
+        "label": "Agriculture",
+        "type": "parent",
+        "options": [
+          {
+            "label": "Corn Farm",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"corn_farm"
+            }
+          },
+          {
+            "label": "Bean Farm",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"bean_farm"
+            }
+          },
+          {
+            "label": "Wheat Farm",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"wheat_farm"
+            }
+          },
+          {
+            "label": "Potato Farm",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"potato_farm"
+            }
+          },
+          {
+            "label": "Tomato Farm",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"tomato_farm"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Resources",
+    "type": "resources"
+  }
+]

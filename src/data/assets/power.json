@@ -1,6 +1,7 @@
 {
   "id":"power",
-  "category":"power",
+  "category":"primary",
+  "tracked":1,
   "name":"Power",
   "description":"Stored power.",
   "price":150,

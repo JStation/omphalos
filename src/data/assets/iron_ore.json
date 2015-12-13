@@ -1,6 +1,6 @@
 {
   "id":"iron_ore",
-  "category":"resource",
+  "category":"raw_material",
   "name":"Iron Ore",
   "description":"Ore from an Iron Extractor",
   "price":150,

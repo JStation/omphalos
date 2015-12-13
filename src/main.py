@@ -33,7 +33,7 @@ frames_per_sec = 1.0 / 30.0
 window = pyglet.window.Window()
 
 ui_manager.window = window
-ui_manager.test_window()
+ui_manager.init_action_menu()
 
 @window.event
 def on_draw():

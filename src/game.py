@@ -9,6 +9,7 @@ class Game(object):
     def __init__(self):
         self._assets = set()
         self._player = Player()
+        self._ui_actions = []
 
         self._load_assets()
 

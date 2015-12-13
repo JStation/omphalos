@@ -137,5 +137,6 @@ class Controller(Managed):
         manager.add_controller(self)
 
     def delete(self):
-        self._manager.remove_controller(self)
+        if self._manager:
+            self._manager.remove_controller(self)
         super(Controller, self).delete()
