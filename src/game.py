@@ -34,6 +34,8 @@ class Game(object):
 
         # Default Player Assets
         self._player.add_asset('power', 150)
+        self._player.add_asset('money', 25000)
+        self._player.add_asset('iron', 10000)
 
     @property
     def player(self):

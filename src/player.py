@@ -14,18 +14,14 @@ class DoesNotOwnAsset(Exception):
 class AssetQuantityTooLittle(Exception):
     pass
 
+
 class Player(object):
     """
     Place to store player's assets and money
     """
 
     def __init__(self):
-        self._money = 100000  # Start with 100, maybe read from some sort of setting file instead?
         self._assets = set()
-
-    @property
-    def money(self):
-        return self._money
 
     @property
     def assets(self):
@@ -52,14 +48,6 @@ class Player(object):
         player_asset -= quantity
         if player_asset.quantity == 0:
             self._assets.remove(player_asset)
-
-    def add_money(self, change):
-        self._money += change
-
-    def remove_money(self, change):
-        if self._money < change:
-            raise NotEnoughMoney
-        self._money -= change
 
 
 class PlayerAsset(object):
