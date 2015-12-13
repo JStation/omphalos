@@ -12,6 +12,8 @@ MAP_FILE = "maps/test2.tmx"
 # Sounds
 pyglet.options['audio'] = ('openal', 'silent')
 try:
+    pyglet.lib.load_library('lib/avbin.dll')
+    pyglet.have_avbin=True
     bg_music = pyglet.media.load('assets/sound/bg_music.mp3', streaming=False)
 except WAVEFormatException:
     pass
