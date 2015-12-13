@@ -80,6 +80,10 @@ resources.load(world_map)
 def on_mouse_press(x, y, button, modifiers):
     ui_manager.on_mouse_press(x, y, button, modifiers)
 
+@window.event
+def on_mouse_motion(x, y, dx, dy):
+    ui_manager.on_mouse_motion(x, y, dx, dy)
+
 
 def update(dt):
     if keys[pyglet.window.key.A] and keys[pyglet.window.key.W]:

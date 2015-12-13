@@ -2,14 +2,16 @@ from animation import ChainableAnimation
 from constants import ANIM_LOOP
 from game import game
 import pyglet
-from structure import Structure
+from structure import Structure, register_structure
 
 image = pyglet.image.load('assets/structures/power-plant.png')
 
-
+@register_structure
 class PowerPlant(Structure):
+    STRUCTURE_FRAME_SIZE = (40, 44)
+    STRUCTURE_ID = 'coal_power_plant'
+
     def __init__(self, *args, **kwargs):
-        self.frame_size = (40, 44)
         self.asset = game.get_asset('power')
         self.power_per_second = 3
         frame_period = 3.5

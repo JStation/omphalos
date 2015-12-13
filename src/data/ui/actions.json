@@ -22,7 +22,7 @@
             }
           },
           {
-            "label": "Coal Power Plant",
+            "label": "Build Coal Power Plant",
             "type": "build_action",
             "kwargs": {
               "structure_id":"coal_power_plant"
@@ -31,42 +31,48 @@
         ]
       },
       {
-        "label": "Agriculture",
+        "label": "Mineral Harvesting",
         "type": "parent",
         "options": [
           {
-            "label": "Corn Farm",
+            "label": "Build Iron Extractor",
             "type": "build_action",
             "kwargs": {
-              "structure_id":"corn_farm"
+              "structure_id":"iron_extractor"
+            }
+          }
+        ]
+      },
+      {
+        "label": "Food & Water",
+        "type": "parent",
+        "options": [
+          {
+            "label": "Indoor Vegetable Farm",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"indoor_vegetable_farm"
             }
           },
           {
-            "label": "Bean Farm",
+            "label": "Vegetable Processing Plant",
             "type": "build_action",
             "kwargs": {
-              "structure_id":"bean_farm"
+              "structure_id":"vegetable_processing_plant"
             }
           },
           {
-            "label": "Wheat Farm",
+            "label": "Toxic Water Extractor",
             "type": "build_action",
             "kwargs": {
-              "structure_id":"wheat_farm"
+              "structure_id":"toxic_water_extractor"
             }
           },
           {
-            "label": "Potato Farm",
+            "label": "Water Filtration Facility",
             "type": "build_action",
             "kwargs": {
-              "structure_id":"potato_farm"
-            }
-          },
-          {
-            "label": "Tomato Farm",
-            "type": "build_action",
-            "kwargs": {
-              "structure_id":"tomato_farm"
+              "structure_id":"water_filtration_facility"
             }
           }
         ]

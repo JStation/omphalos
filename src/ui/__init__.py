@@ -39,6 +39,8 @@ class UIAction(OneTimeButton):
             self._ui_manager.open_action_menu_previous_content()
         elif self._type == 'resources':
             self._ui_manager.open_resource_list()
+        elif self._type == 'build_action':
+            self._ui_manager.start_build_action(**self._kwargs)
 
     @classmethod
     def from_json(cls, manager, data):
@@ -97,6 +99,7 @@ class UIManager(object):
         self._action_content_previous = []
         self._action_menu = None
         self._resource_menu = None
+        self._build_action_instance = None
 
     @property
     def batch(self):
@@ -149,7 +152,7 @@ class UIManager(object):
 
         self._action_menu = Manager(
             # an horizontal layout with two vertical layouts, each one with a slider.
-            Scrollable(height=self.window.height, width=200, content=VerticalContainer(content=content, align=HALIGN_RIGHT)),
+            Scrollable(height=self.window.height, width=400, content=VerticalContainer(content=content, align=HALIGN_RIGHT)),
             window=self.window,
             batch=self.batch,
             theme=action_menu_theme
@@ -169,12 +172,24 @@ class UIManager(object):
             self._resource_menu = UIResourceList(self.window, self.batch)
         self._resource_menu.render()
 
+    def start_build_action(self, structure_id, **kwargs):
+        from structure import structure_classes
+        cls = structure_classes[structure_id]
+        self._build_action_instance = cls(x=0, y=0, batch=game.structures)
+        self._build_action_instance.opacity = 150
+        game.to_update.add(self._build_action_instance)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        if self._build_action_instance:
+            structure = self._build_action_instance
+            structure.x=-(self._frame_offset[0]-x+(structure.frame_size[0]/2))
+            structure.y=-(self._frame_offset[1]-y+(structure.frame_size[1]/2))
+
     def on_mouse_press(self, x, y, button, modifiers):
-        print(self._frame_offset[0]-x, self._frame_offset[1]-y)
-        structure_class = random.choice([PowerPlant, IronExtractor])
-        structure = structure_class(x=-(self._frame_offset[0]-x),y=-(self._frame_offset[1]-y), batch=game.structures)
-        game.to_update.add(structure)
-        game.requires_upkeep.add(structure)
+        if self._build_action_instance:
+            self._build_action_instance.opacity = 255
+            game.requires_upkeep.add(self._build_action_instance)
+            self._build_action_instance = None
 
 
 ui_manager = UIManager()

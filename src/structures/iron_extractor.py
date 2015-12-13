@@ -3,14 +3,16 @@ from constants import ANIM_LOOP
 from game import game
 from player import AssetQuantityTooLittle
 import pyglet
-from structure import Structure
+from structure import Structure, register_structure
 
 image = pyglet.image.load('assets/structures/iron-extractor.png')
 
-
+@register_structure
 class IronExtractor(Structure):
+    STRUCTURE_FRAME_SIZE = (40, 64)
+    STRUCTURE_ID = 'iron_extractor'
+
     def __init__(self, *args, **kwargs):
-        self.frame_size = (40, 64)
         self.asset = game.get_asset('iron_ore')
         self.power_per_second = 5
         self.asset_per_second = 2
