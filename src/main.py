@@ -4,6 +4,7 @@ from tiledtmxloader import tmxreader
 from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
 from pyglet.gl import glTranslatef, glLoadIdentity
 from characters.mech import Mech
+from game import game
 
 MAP_FILE = "maps/test2.tmx"
 
@@ -78,18 +79,24 @@ def update(dt):
     for obj in to_update:
         obj.update(dt)
 
+def upkeep(dt):
+    for obj in requires_upkeep:
+        obj.upkeep(dt)
+
 # Generate the graphics for every visible tile.
 batch = pyglet.graphics.Batch()
 sprites = []
 characters = pyglet.graphics.Batch()
 structures = pyglet.graphics.Batch()
 to_update = set()
+requires_upkeep = set()
 
 mech = Mech(x=50,y=1500, batch=characters)
 to_update.add(mech)
 
 power_plant = PowerPlant(x=150,y=1500, batch=structures)
 to_update.add(power_plant)
+requires_upkeep.add(power_plant)
 
 
 for group_num, layer in enumerate(world_map.layers):
@@ -118,4 +125,5 @@ for group_num, layer in enumerate(world_map.layers):
 
 
 pyglet.clock.schedule_interval(update, frames_per_sec)
+pyglet.clock.schedule_interval(upkeep, 1)
 pyglet.app.run()

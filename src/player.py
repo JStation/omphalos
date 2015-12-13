@@ -21,7 +21,7 @@ class Player(object):
 
     def __init__(self):
         self._money = 100000  # Start with 100, maybe read from some sort of setting file instead?
-        self._assets = []
+        self._assets = set()
 
     @property
     def money(self):
@@ -29,7 +29,7 @@ class Player(object):
 
     def get_asset(self, asset_id):
         for a in self._assets:
-            if asset_id == a.asset.asset_id:
+            if asset_id == a.asset_id:
                 return a
 
         return None
@@ -39,7 +39,7 @@ class Player(object):
 
         if player_asset is None:
             player_asset = PlayerAsset(asset_id, 0)
-            self._assets.append(player_asset)
+            self._assets.add(player_asset)
 
         player_asset += quantity
 

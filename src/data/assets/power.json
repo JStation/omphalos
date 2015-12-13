@@ -1,0 +1,9 @@
+{
+  "id":"power",
+  "category":"power",
+  "name":"Power",
+  "description":"Stored power.",
+  "price":150,
+  "traits":{
+  }
+}
