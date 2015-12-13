@@ -1,4 +1,5 @@
 import pyglet
+from pyglet.media.riff import WAVEFormatException
 from structures.power_plant import PowerPlant
 from tiledtmxloader import tmxreader
 from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
@@ -10,7 +11,10 @@ MAP_FILE = "maps/test2.tmx"
 
 # Sounds
 pyglet.options['audio'] = ('openal', 'silent')
-bg_music = pyglet.media.load('assets/sound/bg_music.mp3', streaming=False)
+try:
+    bg_music = pyglet.media.load('assets/sound/bg_music.mp3', streaming=False)
+except WAVEFormatException:
+    pass
 
 world_map = tmxreader.TileMapParser().parse_decode(MAP_FILE)
 
