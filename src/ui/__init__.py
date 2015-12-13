@@ -9,6 +9,9 @@ from pyglet_gui.manager import Manager
 from pyglet_gui.buttons import OneTimeButton
 from pyglet_gui.scrollable import Scrollable
 from pyglet_gui.containers import VerticalContainer
+import random
+from structures.iron_extractor import IronExtractor
+from structures.power_plant import PowerPlant
 from ui.themes import action_menu_theme, resource_menu_theme
 
 from game import game
@@ -165,6 +168,13 @@ class UIManager(object):
         if self._resource_menu is None:
             self._resource_menu = UIResourceList(self.window, self.batch)
         self._resource_menu.render()
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        print(self._frame_offset[0]-x, self._frame_offset[1]-y)
+        structure_class = random.choice([PowerPlant, IronExtractor])
+        structure = structure_class(x=-(self._frame_offset[0]-x),y=-(self._frame_offset[1]-y), batch=game.structures)
+        game.to_update.add(structure)
+        game.requires_upkeep.add(structure)
 
 
 ui_manager = UIManager()

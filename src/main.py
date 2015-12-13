@@ -11,6 +11,8 @@ from characters.human import Human
 from ui import ui_manager
 from constants import WINDOW_WIDTH, WINDOW_HEIGHT
 
+from game import game
+
 MAP_FILE = "maps/test2.tmx"
 FULLSCREEN_MODE = False
 # Sounds
@@ -59,10 +61,10 @@ def on_draw():
     # [21:09]	DR0ID_: well, the NPC and other dynamic things need to be drawn in between, right?
     # [21:09]	thorbjorn: Right, so maybe once for the bottom layers, then your complicated stuff, and then another time for the layers on top.
 
-    batch.draw()
-    humans.draw()
-    structures.draw()
-    characters.draw()
+    game.tiles.draw()
+    game.humans.draw()
+    game.structures.draw()
+    game.characters.draw()
 
     glLoadIdentity()
     glTranslatef(0, 0, 0.0)
@@ -72,6 +74,11 @@ keys = pyglet.window.key.KeyStateHandler()
 window.push_handlers(keys)
 resources = ResourceLoaderPyglet()
 resources.load(world_map)
+
+
+@window.event
+def on_mouse_press(x, y, button, modifiers):
+    ui_manager.on_mouse_press(x, y, button, modifiers)
 
 
 def update(dt):
@@ -96,44 +103,32 @@ def update(dt):
     else:
         mech.play('idle')
 
-    for obj in to_update:
-        obj.update(dt)
+    game.update(dt)
 
 
 def upkeep(dt):
-    for obj in requires_upkeep:
-        obj.upkeep(dt)
+    game.upkeep(dt)
 
-# Generate the graphics for every visible tile.
-batch = pyglet.graphics.Batch()
-sprites = []
-humans = pyglet.graphics.Batch()
-characters = pyglet.graphics.Batch()
-structures = pyglet.graphics.Batch()
+game.to_update.add(ui_manager)
 
-to_update = set()
-requires_upkeep = set()
+mech = Mech(x=50,y=1500, batch=game.characters)
+game.to_update.add(mech)
 
-to_update.add(ui_manager)
+power_plant = PowerPlant(x=150,y=1500, batch=game.structures)
+game.to_update.add(power_plant)
+game.requires_upkeep.add(power_plant)
 
-mech = Mech(x=50,y=1500, batch=characters)
-to_update.add(mech)
+power_plant = PowerPlant(x=250,y=1500, batch=game.structures)
+game.to_update.add(power_plant)
+game.requires_upkeep.add(power_plant)
 
-power_plant = PowerPlant(x=150,y=1500, batch=structures)
-to_update.add(power_plant)
-requires_upkeep.add(power_plant)
-
-power_plant = PowerPlant(x=250,y=1500, batch=structures)
-to_update.add(power_plant)
-requires_upkeep.add(power_plant)
-
-iron_extractor = IronExtractor(x=350,y=1200, batch=structures)
-to_update.add(iron_extractor)
-requires_upkeep.add(iron_extractor)
+iron_extractor = IronExtractor(x=350,y=1200, batch=game.structures)
+game.to_update.add(iron_extractor)
+game.requires_upkeep.add(iron_extractor)
 
 for n in range(100):
-    h = Human(x=360, y=1220, batch=humans)
-    to_update.add(h)
+    h = Human(x=360, y=1220, batch=game.humans)
+    game.to_update.add(h)
 # h = Human(x=100, y=1500, batch=humans)
 # to_update.add(h)
 
@@ -155,10 +150,10 @@ for group_num, layer in enumerate(world_map.layers):
                 # The loader needed to load the images upside-down to match
                 # the tiles to their correct images. This reversal must be
                 # done again to render the rows in the correct order.
-                sprites.append(pyglet.sprite.Sprite(image_file,
+                game.sprites.append(pyglet.sprite.Sprite(image_file,
                     world_map.tilewidth * xtile,
                     world_map.tileheight * (layer.height - ytile),
-                    batch=batch, group=group))
+                    batch=game.tiles, group=group))
 
 
 pyglet.clock.schedule_interval(update, frames_per_sec)

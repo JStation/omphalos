@@ -6,6 +6,7 @@ from structure import Structure
 
 image = pyglet.image.load('assets/structures/power-plant.png')
 
+
 class PowerPlant(Structure):
     def __init__(self, *args, **kwargs):
         self.frame_size = (40, 44)

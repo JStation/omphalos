@@ -2,6 +2,8 @@ import json
 import os
 from asset import Asset
 from player import Player
+import pyglet
+
 
 class Game(object):
     PATH_ASSETS = 'data/assets/'
@@ -13,9 +15,54 @@ class Game(object):
 
         self._load_assets()
 
+        self._to_update = set()
+        self._requires_upkeep = set()
+
+        self._tiles = pyglet.graphics.Batch()
+        self._humans = pyglet.graphics.Batch()
+        self._characters = pyglet.graphics.Batch()
+        self._structures = pyglet.graphics.Batch()
+        self._sprites = []
+
     @property
     def player(self):
         return self._player
+
+    @property
+    def requires_upkeep(self):
+        return self._requires_upkeep
+
+    @property
+    def to_update(self):
+        return self._to_update
+
+    @property
+    def tiles(self):
+        return self._tiles
+
+    @property
+    def humans(self):
+        return self._humans
+
+    @property
+    def characters(self):
+        return self._characters
+
+    @property
+    def structures(self):
+        return self._structures
+
+    @property
+    def sprites(self):
+        return self._sprites
+
+    def update(self, dt):
+        for obj in self._to_update:
+            obj.update(dt)
+
+    def upkeep(self, dt):
+        for obj in self._requires_upkeep:
+            obj.upkeep(dt)
 
     def _load_assets(self):
         for asset in Game.load_json_objects(self.PATH_ASSETS):
