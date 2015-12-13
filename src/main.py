@@ -1,5 +1,6 @@
 import pyglet
 from pyglet.media.riff import WAVEFormatException
+from pyglet.gl import *
 from structures.iron_extractor import IronExtractor
 from structures.power_plant import PowerPlant
 from tiledtmxloader import tmxreader
@@ -7,6 +8,7 @@ from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
 from pyglet.gl import glTranslatef, glLoadIdentity
 from characters.mech import Mech
 from game import game
+from ui import ui_manager
 
 MAP_FILE = "maps/test2.tmx"
 
@@ -16,7 +18,7 @@ try:
     pyglet.lib.load_library('lib/avbin.dll')
     pyglet.have_avbin=True
     bg_music = pyglet.media.load('assets/sound/bg_music.mp3', streaming=False)
-except WAVEFormatException:
+except (WAVEFormatException, ImportError):
     pass
 
 world_map = tmxreader.TileMapParser().parse_decode(MAP_FILE)
@@ -30,6 +32,9 @@ delta = [200, -world_map.pixel_height+150]
 frames_per_sec = 1.0 / 30.0
 window = pyglet.window.Window()
 
+ui_manager.window = window
+ui_manager.test_window()
+
 @window.event
 def on_draw():
     window.clear()
@@ -37,7 +42,9 @@ def on_draw():
     glLoadIdentity()
     # Move the "eye" to the current location on the map.
     # glTranslatef(delta[0], delta[1], 0.0)
-    glTranslatef(int(-mech.x+(window.width/2)-(mech.frame_size[0]/2)), int(-mech.y+(window.height/2)-(mech.frame_size[1]/2)), 0.0)
+    offset = int(-mech.x+(window.width/2)-(mech.frame_size[0]/2)), int(-mech.y+(window.height/2)-(mech.frame_size[1]/2))
+    glTranslatef(offset[0], offset[1], 0.0)
+    ui_manager.frame_offset = offset
 
     # TODO: [21:03]	thorbjorn: DR0ID_: You can generally determine the range of tiles that are visible before your drawing loop, which is much faster than looping over all tiles and checking whether it is visible for each of them.
     # [21:06]	DR0ID_: probably would have to rewrite the pyglet demo to use a similar render loop as you mentioned
@@ -54,6 +61,10 @@ def on_draw():
     batch.draw()
     structures.draw()
     characters.draw()
+
+    glLoadIdentity()
+    glTranslatef(0, 0, 0.0)
+    ui_manager.batch.draw()
 
 keys = pyglet.window.key.KeyStateHandler()
 window.push_handlers(keys)
@@ -86,6 +97,7 @@ def update(dt):
     for obj in to_update:
         obj.update(dt)
 
+
 def upkeep(dt):
     for obj in requires_upkeep:
         obj.upkeep(dt)
@@ -95,8 +107,11 @@ batch = pyglet.graphics.Batch()
 sprites = []
 characters = pyglet.graphics.Batch()
 structures = pyglet.graphics.Batch()
+
 to_update = set()
 requires_upkeep = set()
+
+to_update.add(ui_manager)
 
 mech = Mech(x=50,y=1500, batch=characters)
 to_update.add(mech)
@@ -135,8 +150,6 @@ for group_num, layer in enumerate(world_map.layers):
                     world_map.tilewidth * xtile,
                     world_map.tileheight * (layer.height - ytile),
                     batch=batch, group=group))
-
-
 
 
 pyglet.clock.schedule_interval(update, frames_per_sec)
