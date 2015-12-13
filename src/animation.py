@@ -7,6 +7,7 @@ from pyglet.sprite import Sprite
 class MultipleAnimationSprite(Sprite):
     def __init__(self, sequences, default_sequence='idle', *args, **kwargs):
         self._animation_sequences = sequences
+        self._default_sequence = default_sequence
         self._sequence_name = default_sequence
         kwargs['img'] = self._animation_sequences[self._sequence_name]
         super(MultipleAnimationSprite, self).__init__(*args, **kwargs)
@@ -15,6 +16,10 @@ class MultipleAnimationSprite(Sprite):
         """Start playing the given sequence."""
         if sequence_name == self._sequence_name:
             return
+
+        if not sequence_name in self._animation_sequences:
+            # For development only, we don't always add all required animation sequences when creating new structures
+            sequence_name = self._default_sequence
 
         self._frame_index = -1
         self._sequence_name = sequence_name

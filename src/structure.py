@@ -138,7 +138,9 @@ class Structure(MultipleAnimationSprite):
                 game.player.get_asset(asset_id).subtract(amount)
 
             self._structure_active = True
+            self.play('idle')
         except AssetQuantityTooLittle:
+            self.play('inactive')
             self._structure_active = False
         return self._structure_active
 

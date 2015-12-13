@@ -7,6 +7,7 @@ from player import Player
 import pyglet
 from structure import StructureFactory
 
+
 class Game(object):
     PATH_ASSETS = 'data/assets/'
     PATH_ENVIRONMENT_VARIABLES = 'data/environment/'
@@ -32,7 +33,7 @@ class Game(object):
         self._sprites = []
 
         # Default Player Assets
-        self._player.add_asset('power', 500)
+        self._player.add_asset('power', 150)
 
     @property
     def player(self):

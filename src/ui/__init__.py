@@ -190,7 +190,13 @@ class UIManager(object):
         if self._build_action_instance:
             self._build_action_instance.opacity = 255
             game.requires_upkeep.add(self._build_action_instance)
-            self._build_action_instance = None
+            if modifiers == pyglet.window.key.MOD_SHIFT:
+                structure_id = self._build_action_instance.structure_id
+                self._build_action_instance = None
+                self.start_build_action(structure_id)
+            else:
+                self._build_action_instance = None
+
 
 
 ui_manager = UIManager()
