@@ -7,11 +7,12 @@ from tiledtmxloader import tmxreader
 from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
 from pyglet.gl import glTranslatef, glLoadIdentity
 from characters.mech import Mech
+from labels import resourceLabel
 from game import game
 from ui import ui_manager
 
 MAP_FILE = "maps/test2.tmx"
-
+FULLSCREEN_MODE = False
 # Sounds
 pyglet.options['audio'] = ('openal', 'silent')
 try:
@@ -30,7 +31,7 @@ world_map = tmxreader.TileMapParser().parse_decode(MAP_FILE)
 # problems. See http://groups.google.com/group/pyglet-users/browse_thread/thread/52f9ae1ef7b0c8fa?pli=1
 delta = [200, -world_map.pixel_height+150]
 frames_per_sec = 1.0 / 30.0
-window = pyglet.window.Window()
+window = pyglet.window.Window(fullscreen=FULLSCREEN_MODE)
 
 ui_manager.window = window
 ui_manager.test_window()
@@ -127,6 +128,7 @@ requires_upkeep.add(power_plant)
 iron_extractor = IronExtractor(x=350,y=1200, batch=structures)
 to_update.add(iron_extractor)
 requires_upkeep.add(iron_extractor)
+
 
 
 for group_num, layer in enumerate(world_map.layers):
