@@ -124,15 +124,6 @@ class Structure(MultipleAnimationSprite):
             self.produce(dt)
             self.environment(dt)
 
-    def center(self):
-        return (self._x+(self._width/2), self._y+(self._height/2))
-
-    def hit_test(self, obj, x, y):
-        # return Math.abs(center.x - os.center.x) < width / 2 + os.width / 2
-        #    && Math.abs(center.y - os.center.y) < height / 2 + os.width / 2;
-        if self.center()[0] - obj.center()[0] < self._width / 2 + obj.width / 2 and self.center()[1] - obj.center()[1] < self._height / 2:
-            print('hit %s x %s' % (x, y))
-
     def consume(self, dt):
         from game import game
         try:

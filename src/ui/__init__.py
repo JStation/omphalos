@@ -223,12 +223,14 @@ class UIManager(object):
             structure = self._build_action_instance
             structure.x=-(self._frame_offset[0]-x+(structure.frame_size[0]/2))
             structure.y=-(self._frame_offset[1]-y+(structure.frame_size[1]/2))
-            game.will_collide(self._build_action_instance, self._build_action_instance.x, self._build_action_instance.y)
+            # @todo give a red tint to structure if colliding with something else
+            # game.will_collide(self._build_action_instance, self._build_action_instance.x, self._build_action_instance.y)
 
     def on_mouse_press(self, x, y, button, modifiers):
         if self._build_action_instance:
             structure_factory = game.get_structure(self._build_action_instance.structure_id)
-            game.will_collide(self._build_action_instance, self._build_action_instance.x, self._build_action_instance.y)
+            if game.will_collide(self._build_action_instance):
+                return
             try:
                 structure_factory.pay()
             except AssetQuantityTooLittle as e:

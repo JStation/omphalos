@@ -131,6 +131,7 @@ game.to_update.add(ui_manager)
 
 # manually instantiated entities
 mech = Mech(x=50,y=1500, batch=game.characters)
+game.collidable.add(mech)
 game.to_update.add(mech)
 
 for n in range(100):

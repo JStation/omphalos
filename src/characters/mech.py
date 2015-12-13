@@ -1,5 +1,6 @@
 from animation import ChainableAnimation
 from constants import ANIM_LOOP
+from game import game
 import pyglet
 from character import Character
 
@@ -8,7 +9,9 @@ image = pyglet.image.load('assets/characters/mech.png')
 
 class Mech(Character):
     def __init__(self, *args, **kwargs):
-        self.frame_size = (64,64)
+        self._width = 64
+        self._height = 64
+        self.frame_size = (self._width, self._height)
         frame_period = 0.024
         sequences = {
             'idle': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(12*self.frame_size[0], 0, self.frame_size[0], self.frame_size[1]), ], frame_period),
@@ -22,6 +25,8 @@ class Mech(Character):
             'walk_s': ChainableAnimation.from_image_sequence(ANIM_LOOP, [image.get_region(i*self.frame_size[0], 7*self.frame_size[1], self.frame_size[0], self.frame_size[1]) for i in range(0,16)], frame_period),
         }
         super(Mech, self).__init__(sequences, *args, **kwargs)
+
+        self._collision_modifier = 25
 
     def update(self, dt):
         if self._sequence_name == 'walk_n':
@@ -51,4 +56,9 @@ class Mech(Character):
         else:
             self._dx = 0
             self._dy = 0
+
+        if game.will_collide(self, self._x+self._dx*dt, self._y+self._dy*dt):
+            self._dx = 0
+            self._dy = 0
+
         super(Mech, self).update(dt)

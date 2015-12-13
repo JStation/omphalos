@@ -46,11 +46,11 @@ class Game(object):
     def collidable(self):
         return self._collidable
 
-    def will_collide(self, to_check, x, y):
+    def will_collide(self, to_check, at_x=None, at_y=None):
         for obj in self.collidable:
             if obj == to_check:
                 continue
-            if obj.hit_test(to_check, x, y):
+            if obj.hit_test(to_check, at_x, at_y):
                 return True
 
     @property

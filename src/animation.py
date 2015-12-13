@@ -6,6 +6,8 @@ from pyglet.sprite import Sprite
 
 class MultipleAnimationSprite(Sprite):
     def __init__(self, sequences, default_sequence='idle', *args, **kwargs):
+        self._collision_modifier = 0
+
         self._animation_sequences = sequences
         self._default_sequence = default_sequence
         self._sequence_name = default_sequence
@@ -49,6 +51,25 @@ class MultipleAnimationSprite(Sprite):
         else:
             self.dispatch_event('on_animation_end')
 
+    # @todo move these to a different class
+    def center(self, at_x=None, at_y=None):
+        x = at_x or self._x
+        y = at_y or self._y
+        return x+self._width / 2, y + self._height / 2
+
+    def hit_test(self, obj, at_x=None, at_y=None):
+        obj_center = obj.center(at_x, at_y)
+        if abs(self.center()[0] - obj_center[0]) < self.hit_width / 2 + obj.hit_width / 2 and \
+                        abs(self.center()[1] - obj_center[1]) < self.hit_height / 2 + obj.hit_height / 2:
+            return True
+
+    @property
+    def hit_width(self):
+        return self._width - self._collision_modifier
+
+    @property
+    def hit_height(self):
+        return self._height - self._collision_modifier
 
 class ChainableAnimation(Animation):
     def __init__(self, next_sequence, default_period, *args, **kwargs):
