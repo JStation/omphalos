@@ -57,6 +57,7 @@ class UIResourceList(object):
             Scrollable(
                 VerticalContainer([SectionHeader("Resources"),
                     FoldingSection("Primary", self.get_assets('primary'), is_open=True),
+                    FoldingSection("Processed Materials", self.get_assets('processed_material'), is_open=False),
                     FoldingSection("Raw Materials", self.get_assets('raw_material'), is_open=False),
                     OneTimeButton('Close', self.remove)
                 ], align=HALIGN_LEFT),
@@ -84,6 +85,7 @@ class UIResourceList(object):
             if asset.category == category:
                 documents.append(Document("%s: %s" % (asset.name, int(pa.quantity)), width=300))
         return VerticalContainer(documents)
+
 
 class UIManager(object):
     PATH_UI_ACTIONS = 'data/ui/actions.json'
@@ -170,6 +172,9 @@ class UIManager(object):
         self._resource_menu.render()
 
     def start_build_action(self, structure_id, **kwargs):
+        if self._build_action_instance:
+            game.to_update.remove(self._build_action_instance)
+            self._build_action_instance.delete()
         structure_factory = game.get_structure(structure_id)
         self._build_action_instance = structure_factory.build(x=0, y=0, batch=game.structures)
         self._build_action_instance.opacity = 150
