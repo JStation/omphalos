@@ -12,6 +12,9 @@ class resourceLabel(font.Text):
         self.asset = game.get_asset(asset_name)
         super(resourceLabel, self).__init__(font=mini57, *args, **kwargs)
 
+    def update(self, dt):
+        self._set_text(game.player.get_asset(self.asset.asset_id).quantity)
+
     def draw(self):
         self._set_text(game.player.get_asset(self.asset.asset_id).quantity)
         super(resourceLabel, self).draw()

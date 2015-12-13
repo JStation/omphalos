@@ -86,7 +86,7 @@ class UIManager(object):
         # Set up a Manager
         self.manager = Manager(
             # an horizontal layout with two vertical layouts, each one with a slider.
-            Scrollable(height=self.window.height, width=200, content=VerticalContainer(content=[OneTimeButton('Power Plant'), OneTimeButton('Iron Extractor'),], align=HALIGN_RIGHT)),
+            Scrollable(height=self.window.height, width=200, content=VerticalContainer(content=[OneTimeButton('Power Plant'), OneTimeButton('Iron Extractor'), OneTimeButton('Atmosphere Generator')], align=HALIGN_RIGHT)),
             window=self.window,
             batch=self.batch,
             theme=theme)
