@@ -1,8 +1,9 @@
 import pyglet
 from pyglet.gl import glTranslated
+from pyglet_gui.constants import HALIGN_RIGHT
 
 from pyglet_gui.manager import Manager
-from pyglet_gui.buttons import Button
+from pyglet_gui.buttons import Button, OneTimeButton
 from pyglet_gui.scrollable import Scrollable
 from pyglet_gui.containers import VerticalContainer
 from pyglet_gui.theme import Theme
@@ -42,7 +43,7 @@ class UIManager(object):
 
     def test_window(self):
         theme = Theme({"font": "Lucida Grande",
-               "font_size": 12,
+               "font_size": 10,
                "text_color": [255, 255, 255, 255],
                "gui_color": [255, 0, 0, 255],
                "button": {
@@ -85,7 +86,7 @@ class UIManager(object):
         # Set up a Manager
         self.manager = Manager(
             # an horizontal layout with two vertical layouts, each one with a slider.
-            Scrollable(height=self.window.height, width=200, content=VerticalContainer(content=[Button(str(x)) for x in range(10)])),
+            Scrollable(height=self.window.height, width=200, content=VerticalContainer(content=[OneTimeButton('Power Plant'), OneTimeButton('Iron Extractor'),], align=HALIGN_RIGHT)),
             window=self.window,
             batch=self.batch,
             theme=theme)
