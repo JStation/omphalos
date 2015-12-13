@@ -32,8 +32,6 @@ class StructureFactory(object):
         y = len(self._animation) - 1
         # y is in reverse order, frames are read from bottom to top
         for name, frames in self._animation.items():
-            if self._structure_id == 'coal_extractor':
-                print('coal anim seq', name, y)
             self._animation_sequences[name] = ChainableAnimation.from_image_sequence(
                 ANIM_LOOP, [
                     self._image.get_region(

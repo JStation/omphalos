@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import json
 from environment import Environment, EnvironmentVariable
 import os
@@ -108,7 +109,7 @@ class Game(object):
         json_files = [json_file for json_file in os.listdir(json_path) if json_file.endswith('.json')]
         for json_file in json_files:
             with open(os.path.join(json_path, json_file)) as json_file_object:
-                objects.append(json.load(json_file_object))
+                objects.append(json.load(json_file_object, object_pairs_hook=OrderedDict))
         return objects
 
 game = Game()
