@@ -81,18 +81,18 @@ class StructureFactory(object):
 
     def pay(self):
         from game import game
-        for asset_id, amount in self._build_requirements:
+        for asset_id, amount in self._build_requirements.items():
             asset = game.get_asset(asset_id)
-            player_has = game.player.get_asset(asset_id).quantity
-            if amount > player_has:
+            player_asset = game.player.get_asset(asset_id)
+            if not player_asset or amount > player_asset.quantity:
                 raise AssetQuantityTooLittle('%s requires %s %s, you have %s' % (
                     self._name,
                     amount,
                     asset.name,
-                    player_has
+                    player_asset.quantity
                 ))
 
-        for asset_id, amount in self._build_requirements:
+        for asset_id, amount in self._build_requirements.items():
             game.player.get_asset(asset_id).subtract(amount)
 
 
@@ -129,8 +129,8 @@ class Structure(MultipleAnimationSprite):
         try:
             for asset_id, amount in self._consumes.items():
                 amount *= dt
-                player_has = game.player.get_asset(asset_id)
-                if not player_has or  amount > player_has.quantity:
+                player_asset = game.player.get_asset(asset_id)
+                if not player_asset or  amount > player_asset.quantity:
                     raise AssetQuantityTooLittle()
 
             for asset_id, amount in self._consumes.items():
@@ -138,7 +138,9 @@ class Structure(MultipleAnimationSprite):
                 game.player.get_asset(asset_id).subtract(amount)
 
             self._structure_active = True
+            self.play('idle')
         except AssetQuantityTooLittle:
+            self.play('inactive')
             self._structure_active = False
         return self._structure_active
 

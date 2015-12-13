@@ -1,0 +1,8 @@
+{
+  "id":"money",
+  "category":"primary",
+  "name":"Money",
+  "description":"Money.",
+  "price":1,
+  "traits":{}
+}

@@ -1,5 +1,6 @@
 import json
 import os
+from player import AssetQuantityTooLittle
 import pyglet
 from pyglet_gui.constants import *
 from pyglet_gui.document import Document
@@ -77,8 +78,6 @@ class UIResourceList(object):
 
     def get_assets(self, category):
         documents = []
-        if category == 'primary':
-            documents.append(Document("Money: %s" % game.player.money, width=300))
 
         for pa in game.player.assets:
             asset = game.get_asset(pa.asset_id)
@@ -188,9 +187,22 @@ class UIManager(object):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if self._build_action_instance:
+            structure_factory = game.get_structure(self._build_action_instance.structure_id)
+            try:
+                structure_factory.pay()
+            except AssetQuantityTooLittle as e:
+                # Display labebl
+                print(e)
+                return
             self._build_action_instance.opacity = 255
             game.requires_upkeep.add(self._build_action_instance)
-            self._build_action_instance = None
+            if modifiers == pyglet.window.key.MOD_SHIFT:
+                structure_id = self._build_action_instance.structure_id
+                self._build_action_instance = None
+                self.start_build_action(structure_id)
+            else:
+                self._build_action_instance = None
+
 
 
 ui_manager = UIManager()
