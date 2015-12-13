@@ -1,5 +1,6 @@
 import pyglet
 from pyglet.media.riff import WAVEFormatException
+from structures.iron_extractor import IronExtractor
 from structures.power_plant import PowerPlant
 from tiledtmxloader import tmxreader
 from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
@@ -104,6 +105,14 @@ power_plant = PowerPlant(x=150,y=1500, batch=structures)
 to_update.add(power_plant)
 requires_upkeep.add(power_plant)
 
+power_plant = PowerPlant(x=250,y=1500, batch=structures)
+to_update.add(power_plant)
+requires_upkeep.add(power_plant)
+
+iron_extractor = IronExtractor(x=350,y=1200, batch=structures)
+to_update.add(iron_extractor)
+requires_upkeep.add(iron_extractor)
+
 
 for group_num, layer in enumerate(world_map.layers):
     if not layer.visible:
@@ -131,5 +140,5 @@ for group_num, layer in enumerate(world_map.layers):
 
 
 pyglet.clock.schedule_interval(update, frames_per_sec)
-pyglet.clock.schedule_interval(upkeep, 1)
+pyglet.clock.schedule_interval(upkeep, 5)
 pyglet.app.run()

@@ -1,0 +1,9 @@
+{
+  "id":"iron_ore",
+  "category":"resource",
+  "name":"Iron Ore",
+  "description":"Ore from an Iron Extractor",
+  "price":150,
+  "traits":{
+  }
+}

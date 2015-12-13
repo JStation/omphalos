@@ -23,6 +23,10 @@ class Asset(object):
     def asset_id(self):
         return self._asset_id
 
+    @property
+    def name(self):
+        return self._name
+
     def add_trait(self, trait, value):
         if trait in self._traits:
             raise DuplicateAssetTrait
