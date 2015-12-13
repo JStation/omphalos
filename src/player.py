@@ -1,3 +1,5 @@
+import pyglet
+
 
 class FailedCriticalObjective(Exception):
     pass
@@ -69,6 +71,10 @@ class PlayerAsset(object):
         if self._quantity < quantity:
             raise AssetQuantityTooLittle
         self._quantity -= quantity
+
+    @property
+    def get_display_document(self):
+        return pyglet.text.document.UnformattedDocument('%s: %s' % (self.asset_id, int(self.quantity)))
 
     @property
     def asset_id(self):

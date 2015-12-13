@@ -57,9 +57,9 @@ class UIResourceList(object):
         content = Frame(
             Scrollable(
                 VerticalContainer([SectionHeader("Resources"),
-                    FoldingSection("Primary", self.get_assets('primary'), is_open=True),
-                    FoldingSection("Processed Materials", self.get_assets('processed_material'), is_open=False),
-                    FoldingSection("Raw Materials", self.get_assets('raw_material'), is_open=False),
+                    UIResourceSection('Primary Resources', 'primary', is_open=True),
+                    UIResourceSection('Processed Material', 'processed_material', is_open=False),
+                    UIResourceSection('Raw Material', 'raw_material', is_open=False),
                     OneTimeButton('Close', self.remove)
                 ], align=HALIGN_LEFT),
             height=400)
@@ -76,14 +76,53 @@ class UIResourceList(object):
         if self._resource_menu:
             self._resource_menu.delete()
 
-    def get_assets(self, category):
+
+class UIResourceSection(FoldingSection):
+    def __init__(self, title, category, *args, **kwargs):
+        self._category = category
+        self._folding_content = None
+        super(UIResourceSection, self).__init__(title, [], *args, **kwargs)
+
+    @property
+    def folding_content(self):
+        if self._folding_content and self._folding_content.is_loaded:
+            return self._folding_content
+        content = self.get_assets()
+        self._folding_content = content
+        return content
+
+    @folding_content.setter
+    def folding_content(self, v):
+        pass
+
+    def get_assets(self):
         documents = []
 
         for pa in game.player.assets:
             asset = game.get_asset(pa.asset_id)
-            if asset.category == category:
-                documents.append(Document("%s: %s" % (asset.name, int(pa.quantity)), width=300))
+            if asset.category == self._category:
+                documents.append(UIResourceItem(asset, pa, width=150))
         return VerticalContainer(documents)
+
+
+class UIResourceItem(Document):
+    def __init__(self, asset, player_asset, *args, **kwargs):
+        self._asset = asset
+        self._player_asset = player_asset
+        super(UIResourceItem, self).__init__(self.get_display(), *args, **kwargs)
+        game.to_update.add(self)
+
+    def get_display(self):
+        return "%s: %s" % (self._asset.name, int(self._player_asset.quantity))
+
+    def update(self, dt):
+        self.set_text(self.get_display())
+
+    def unload(self):
+        game.to_update.remove(self)
+        super(UIResourceItem, self).unload()
+
+
 
 
 class UIManager(object):
@@ -184,10 +223,12 @@ class UIManager(object):
             structure = self._build_action_instance
             structure.x=-(self._frame_offset[0]-x+(structure.frame_size[0]/2))
             structure.y=-(self._frame_offset[1]-y+(structure.frame_size[1]/2))
+            game.will_collide(self._build_action_instance, self._build_action_instance.x, self._build_action_instance.y)
 
     def on_mouse_press(self, x, y, button, modifiers):
         if self._build_action_instance:
             structure_factory = game.get_structure(self._build_action_instance.structure_id)
+            game.will_collide(self._build_action_instance, self._build_action_instance.x, self._build_action_instance.y)
             try:
                 structure_factory.pay()
             except AssetQuantityTooLittle as e:
@@ -195,6 +236,7 @@ class UIManager(object):
                 print(e)
                 return
             self._build_action_instance.opacity = 255
+            game.collidable.add(self._build_action_instance)
             game.requires_upkeep.add(self._build_action_instance)
             if modifiers == pyglet.window.key.MOD_SHIFT:
                 structure_id = self._build_action_instance.structure_id

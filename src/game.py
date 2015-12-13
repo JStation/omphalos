@@ -14,6 +14,7 @@ class Game(object):
     PATH_STRUCTURES = 'data/structures/'
 
     def __init__(self):
+        self._collidable = set()
         self._assets = set()
         self._structure_builders = set()
         self._environment = Environment(self._get_environment_variables())
@@ -40,6 +41,17 @@ class Game(object):
     @property
     def player(self):
         return self._player
+
+    @property
+    def collidable(self):
+        return self._collidable
+
+    def will_collide(self, to_check, x, y):
+        for obj in self.collidable:
+            if obj == to_check:
+                continue
+            if obj.hit_test(to_check, x, y):
+                return True
 
     @property
     def environment(self):

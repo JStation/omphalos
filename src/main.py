@@ -64,13 +64,13 @@ def on_draw():
 
     game.tiles.draw()
     game.humans.draw()
-    game.structures.draw()
     game.characters.draw()
-    message_queue.draw()
+    game.structures.draw()
 
     glLoadIdentity()
     glTranslatef(0, 0, 0.0)
     ui_manager.batch.draw()
+    message_queue.draw()
 
 keys = pyglet.window.key.KeyStateHandler()
 window.push_handlers(keys)
@@ -131,7 +131,7 @@ for n in range(100):
     h = Human(x=360, y=1220, batch=game.humans)
     game.to_update.add(h)
 
-message_queue = MessageHandler(x=50, y=1500)
+message_queue = MessageHandler(x=15, y=15)
 game.to_update.add(message_queue)
 
 #test message
