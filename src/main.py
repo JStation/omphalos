@@ -7,11 +7,12 @@ from tiledtmxloader import tmxreader
 from tiledtmxloader.helperspyglet import ResourceLoaderPyglet
 from pyglet.gl import glTranslatef, glLoadIdentity
 from characters.mech import Mech
-from game import game
+from characters.human import Human
 from ui import ui_manager
+from constants import WINDOW_WIDTH, WINDOW_HEIGHT
 
 MAP_FILE = "maps/test2.tmx"
-
+FULLSCREEN_MODE = False
 # Sounds
 pyglet.options['audio'] = ('openal', 'silent')
 try:
@@ -30,7 +31,7 @@ world_map = tmxreader.TileMapParser().parse_decode(MAP_FILE)
 # problems. See http://groups.google.com/group/pyglet-users/browse_thread/thread/52f9ae1ef7b0c8fa?pli=1
 delta = [200, -world_map.pixel_height+150]
 frames_per_sec = 1.0 / 30.0
-window = pyglet.window.Window()
+window = pyglet.window.Window(width=WINDOW_WIDTH,height=WINDOW_HEIGHT, fullscreen=FULLSCREEN_MODE)
 
 ui_manager.window = window
 ui_manager.init_action_menu()
@@ -59,6 +60,7 @@ def on_draw():
     # [21:09]	thorbjorn: Right, so maybe once for the bottom layers, then your complicated stuff, and then another time for the layers on top.
 
     batch.draw()
+    humans.draw()
     structures.draw()
     characters.draw()
 
@@ -105,6 +107,7 @@ def upkeep(dt):
 # Generate the graphics for every visible tile.
 batch = pyglet.graphics.Batch()
 sprites = []
+humans = pyglet.graphics.Batch()
 characters = pyglet.graphics.Batch()
 structures = pyglet.graphics.Batch()
 
@@ -127,6 +130,12 @@ requires_upkeep.add(power_plant)
 iron_extractor = IronExtractor(x=350,y=1200, batch=structures)
 to_update.add(iron_extractor)
 requires_upkeep.add(iron_extractor)
+
+for n in range(100):
+    h = Human(x=360, y=1220, batch=humans)
+    to_update.add(h)
+# h = Human(x=100, y=1500, batch=humans)
+# to_update.add(h)
 
 
 for group_num, layer in enumerate(world_map.layers):
