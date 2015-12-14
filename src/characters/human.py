@@ -12,12 +12,20 @@ class Human(pyglet.sprite.Sprite):
         super(Human, self).__init__(human_image, *args, **kwargs)
         self._set_destination()
         self._set_waiting()
+        self.alive = True
+
+
+
+        # stuff for collision
         self._height = self._get_height()
         self._width = self._get_width()
         self.hit_width = self._width
         self.hit_height = self._height
 
     def update(self, dt):
+        if not self.alive:
+            return
+
         arrived = self._at_destination()
         if arrived:
             # print("arrived!")
@@ -70,7 +78,15 @@ class Human(pyglet.sprite.Sprite):
         return x+self._hit_box[0] / 2, y + self._hit_box[1] / 2
 
     def hit_test(self, obj, at_x=None, at_y=None):
+        if not self.alive:
+            return False
         obj_center = obj.hit_center(at_x, at_y)
         if abs(self.hit_center()[0] - obj_center[0]) < self.hit_width / 2 + obj.hit_width / 2 and \
                         abs(self.hit_center()[1] - obj_center[1]) < self.hit_height / 2 + obj.hit_height / 2:
+            self.die()
             return True
+
+    def die(self):
+        self._set_image(blood_image)
+        self.alive = False
+
