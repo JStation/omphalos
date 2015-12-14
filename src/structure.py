@@ -23,6 +23,8 @@ class StructureFactory(object):
         self._image = get_image(kwargs['image'])
         self._width = kwargs['width']
         self._height = kwargs['height']
+        self._hit_box_width = kwargs.get('hit_box_width', None)
+        self._hit_box_height = kwargs.get('hit_box_height', None)
         self._animation_speed = kwargs.get('animation_speed', 3)
         self._animation = kwargs.get('animations', {
             'idle':1
@@ -55,6 +57,14 @@ class StructureFactory(object):
     @property
     def height(self):
         return self._height
+
+    @property
+    def hit_box_width(self):
+        return self._hit_box_width
+
+    @property
+    def hit_box_height(self):
+        return self._hit_box_height
 
     @property
     def produces(self):
@@ -114,6 +124,10 @@ class Structure(MultipleAnimationSprite):
         del kwargs['width']
         del kwargs['height']
 
+        if kwargs['hit_box'] != (None, None):
+            self._hit_box = kwargs['hit_box']
+        del kwargs['hit_box']
+
         super(Structure, self).__init__(sequences, *args, **kwargs)
 
     def update(self, dt):
@@ -170,6 +184,7 @@ class Structure(MultipleAnimationSprite):
         kwargs['environment'] = dict(factory.environment)
         kwargs['width'] = factory.width
         kwargs['height'] = factory.height
+        kwargs['hit_box'] = (factory.hit_box_width, factory.hit_box_height)
 
         return cls(
             factory.animation_sequences,

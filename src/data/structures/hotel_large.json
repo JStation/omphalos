@@ -1,0 +1,19 @@
+{
+  "id": "hotel_large",
+  "name": "Large Hotel",
+  "requires": {
+    "money": 1500,
+    "iron": 100
+  },
+  "consumes": {
+    "power": 10
+  },
+  "capacity": {
+    "humans": 2
+  },
+  "image":"assets/structures/hotel-large.png",
+  "width":48,
+  "height":142,
+  "hit_box_width": 48,
+  "hit_box_height": 48
+}

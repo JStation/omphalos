@@ -57,18 +57,29 @@ class MultipleAnimationSprite(Sprite):
         y = at_y or self._y
         return x+self._width / 2, y + self._height / 2
 
+    def hit_center(self, at_x=None, at_y=None):
+        if not hasattr(self, '_hit_box'):
+            return self.center(at_x, at_y)
+        x = at_x or self._x
+        y = at_y or self._y
+        return x+self._hit_box[0] / 2, y + self._hit_box[1] / 2
+
     def hit_test(self, obj, at_x=None, at_y=None):
-        obj_center = obj.center(at_x, at_y)
-        if abs(self.center()[0] - obj_center[0]) < self.hit_width / 2 + obj.hit_width / 2 and \
-                        abs(self.center()[1] - obj_center[1]) < self.hit_height / 2 + obj.hit_height / 2:
+        obj_center = obj.hit_center(at_x, at_y)
+        if abs(self.hit_center()[0] - obj_center[0]) < self.hit_width / 2 + obj.hit_width / 2 and \
+                        abs(self.hit_center()[1] - obj_center[1]) < self.hit_height / 2 + obj.hit_height / 2:
             return True
 
     @property
     def hit_width(self):
+        if hasattr(self, '_hit_box'):
+            return self._hit_box[0]
         return self._width - self._collision_modifier
 
     @property
     def hit_height(self):
+        if hasattr(self, '_hit_box'):
+            return self._hit_box[1]
         return self._height - self._collision_modifier
 
 class ChainableAnimation(Animation):

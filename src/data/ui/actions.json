@@ -83,6 +83,33 @@
             }
           }
         ]
+      },
+      {
+        "label": "Homes & Hotels",
+        "type": "parent",
+        "options": [
+          {
+            "label": "Small Home",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"home_small"
+            }
+          },
+          {
+            "label": "Medium Home",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"home_medium"
+            }
+          },
+          {
+            "label": "Large Hotel",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"hotel_large"
+            }
+          }
+        ]
       }
     ]
   },
