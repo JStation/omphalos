@@ -9,7 +9,7 @@
   },
   "image":"assets/structures/teleportation-chamber.png",
   "width":32,
-  "height":64,
+  "height":55,
   "hit_box_width":32,
   "hit_box_height":32
 }

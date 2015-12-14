@@ -56,8 +56,11 @@ class Human(pyglet.sprite.Sprite):
         has_food = False
         mood = 0
         if game.player.has_asset('water'):
-            game.player.get_asset('water').subtract(0.5)
-            mood += 0.01
+            try:
+                game.player.get_asset('water').subtract(0.5)
+                mood += 0.01
+            except AssetQuantityTooLittle:
+                mood -= 0.1
         else:
             mood -= 0.1
 

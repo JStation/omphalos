@@ -41,11 +41,9 @@ class Game(object):
         self._sprites = []
 
         # Default Player Assets
-        self._player.add_asset('power', 1150)
-        self._player.add_asset('money', 500)
-        self._player.add_asset('food_unhealthy', 200)
-        self._player.add_asset('iron', 1500)
-        self._player.add_asset('water', 100)
+        self._player.add_asset('power', 150)
+        self._player.add_asset('money', 1500)
+        self._player.add_asset('iron', 500)
 
         # Message Queue
         self._message_queue = MessageHandler(x=15, y=15)
@@ -133,7 +131,8 @@ class Game(object):
         for obj in self._requires_upkeep:
             obj.upkeep(dt)
 
-        self.message_queue.create_message('The mood of your people is %s.' % self._environment.get_variable('mood').value)
+        if random.randint(0,4) == 0:
+            self.message_queue.create_message('The mood of your people is %s.' % int(self._environment.get_variable('mood').value))
 
         if self.player.has_asset('water') and self.player.get_asset('water').quantity > self._water_requirement:
             for structure in self.structures:
