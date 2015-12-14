@@ -133,6 +133,7 @@ game.to_update.add(mech)
 
 for n in range(100):
     h = Human(x=360, y=1220, batch=game.humans)
+    game.collidable.add(h)
     game.to_update.add(h)
 
 message_queue = MessageHandler(x=15, y=15)

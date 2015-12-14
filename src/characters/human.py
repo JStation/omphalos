@@ -5,13 +5,17 @@ from random import randint
 from character import Character
 
 human_image = pyglet.image.load('assets/characters/human2.png')
-
+blood_image = pyglet.image.load('assets/characters/blood.png')
 
 class Human(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(Human, self).__init__(human_image, *args, **kwargs)
         self._set_destination()
         self._set_waiting()
+        self._height = self._get_height()
+        self._width = self._get_width()
+        self.hit_width = self._width
+        self.hit_height = self._height
 
     def update(self, dt):
         arrived = self._at_destination()
@@ -51,3 +55,22 @@ class Human(pyglet.sprite.Sprite):
 
     def _set_waiting(self):
         self.waiting = randint(5,240)
+
+    def center(self, at_x=None, at_y=None):
+        x = at_x or self._x
+        y = at_y or self._y
+        return x+self._width / 2, y + self._height / 2
+
+    # copied from Animation
+    def hit_center(self, at_x=None, at_y=None):
+        if not hasattr(self, '_hit_box'):
+            return self.center(at_x, at_y)
+        x = at_x or self._x
+        y = at_y or self._y
+        return x+self._hit_box[0] / 2, y + self._hit_box[1] / 2
+
+    def hit_test(self, obj, at_x=None, at_y=None):
+        obj_center = obj.hit_center(at_x, at_y)
+        if abs(self.hit_center()[0] - obj_center[0]) < self.hit_width / 2 + obj.hit_width / 2 and \
+                        abs(self.hit_center()[1] - obj_center[1]) < self.hit_height / 2 + obj.hit_height / 2:
+            return True
