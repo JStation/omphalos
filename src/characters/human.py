@@ -1,11 +1,14 @@
 from animation import ChainableAnimation
 from constants import ANIM_LOOP
 import pyglet
-from random import randint
+from random import randint, choice
 from character import Character
 
 human_image = pyglet.image.load('assets/characters/human2.png')
-blood_image = pyglet.image.load('assets/characters/blood.png')
+
+blood1 = pyglet.image.load('assets/characters/blood.png')
+blood2 = pyglet.image.load('assets/characters/blood2.png')
+blood_images = [blood1, blood2]
 
 class Human(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
@@ -87,6 +90,6 @@ class Human(pyglet.sprite.Sprite):
             return True
 
     def die(self):
-        self._set_image(blood_image)
+        self._set_image(choice(blood_images))
         self.alive = False
 
