@@ -2,7 +2,6 @@
   "id": "waste_disposal_plant",
   "name": "Waste Disposal Plant",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {

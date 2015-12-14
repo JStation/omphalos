@@ -26,6 +26,7 @@ except (WAVEFormatException, ImportError):
     pass
 
 world_map = tmxreader.TileMapParser().parse_decode(MAP_FILE)
+game.world_map = world_map
 
 # delta is the x/y position of the map view.
 # delta is a list so that it can be accessed from the on_draw method of
@@ -65,7 +66,7 @@ def on_draw():
     game.tiles.draw()
     game.humans.draw()
     game.characters.draw()
-    game.structures.draw()
+    game.structure_batch.draw()
 
     glLoadIdentity()
     glTranslatef(0, 0, 0.0)
@@ -131,10 +132,10 @@ mech = Mech(x=550,y=1500, batch=game.characters)
 game.collidable.add(mech)
 game.to_update.add(mech)
 
-for n in range(100):
-    h = Human(x=360, y=1220, batch=game.humans)
-    game.collidable.add(h)
-    game.to_update.add(h)
+#for n in range(100):
+#    h = Human(x=360, y=1220, batch=game.humans)
+#    # game.collidable.add(h)
+#    game.to_update.add(h)
 
 for group_num, layer in enumerate(world_map.layers):
     if not layer.visible:

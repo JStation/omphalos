@@ -1,12 +1,14 @@
 {
   "id": "coal_extractor",
   "name": "Coal Extractor",
+  "requires_tile": {
+    "resources":"resource:coal"
+  },
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {
-    "coal": 5
+    "coal": 15
   },
   "consumes": {
     "power": 1

@@ -1,11 +1,11 @@
 {
-  "id": "restaurant_fast_food",
-  "name": "Fast Food Restaurant",
+  "id": "restaurant_healthy",
+  "name": "Healthy Restaurant",
   "requires": {
     "iron": 100
   },
   "produces": {
-    "food_unhealthy": 50
+    "food_healthy": 25
   },
   "consumes": {
     "food_processed": 10
@@ -13,7 +13,7 @@
   "environment": {
     "pollution": 0.1
   },
-  "image":"assets/structures/restaurant-fast-food.png",
+  "image":"assets/structures/restaurant-healthy.png",
   "width":48,
   "height":42
 }

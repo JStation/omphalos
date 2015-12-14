@@ -81,6 +81,20 @@
             "kwargs": {
               "structure_id":"water_filtration_facility"
             }
+          },
+          {
+            "label": "Fast Food Restaurant",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"restaurant_fast_food"
+            }
+          },
+          {
+            "label": "Healthy Restaurant",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"restaurant_healthy"
+            }
           }
         ]
       },
@@ -107,6 +121,19 @@
             "type": "build_action",
             "kwargs": {
               "structure_id":"hotel_large"
+            }
+          }
+        ]
+      },
+      {
+        "label": "Space!",
+        "type": "parent",
+        "options": [
+          {
+            "label": "Teleportation Chamber",
+            "type": "build_action",
+            "kwargs": {
+              "structure_id":"teleportation_chamber"
             }
           }
         ]

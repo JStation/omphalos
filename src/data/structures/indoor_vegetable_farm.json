@@ -2,7 +2,6 @@
   "id": "indoor_vegetable_farm",
   "name": "Indoor Vegetable Farm",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {

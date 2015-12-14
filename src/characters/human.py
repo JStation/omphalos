@@ -1,7 +1,8 @@
 from animation import ChainableAnimation
 from constants import ANIM_LOOP
+from player import AssetQuantityTooLittle
 import pyglet
-from random import randint, choice
+from random import randint, choice, random, sample
 from character import Character
 
 human_image = pyglet.image.load('assets/characters/human2.png')
@@ -50,9 +51,41 @@ class Human(pyglet.sprite.Sprite):
                     self.y -= 1
         #print("location: %s, %s" % (self.x, self.y))
 
+    def upkeep(self, dt):
+        from game import game
+        has_food = False
+        mood = 0
+        if game.player.has_asset('water'):
+            game.player.get_asset('water').subtract(0.5)
+            mood += 0.01
+        else:
+            mood -= 0.1
+
+        if game.player.has_asset('food_healthy'):
+            try:
+                game.player.get_asset('food_healthy').subtract(5)
+                mood += 0.05
+                has_food = True
+            except AssetQuantityTooLittle:
+                mood -= 0.01
+
+        if not has_food and game.player.has_asset('food_unhealthy'):
+            try:
+                game.player.get_asset('food_unhealthy').subtract(5)
+                mood += 0.01
+            except AssetQuantityTooLittle:
+                mood -= 0.01
+        else:
+            mood -= 0.05
+
+        if mood != 0:
+            game._environment.add_to_variable('mood', mood)
+
     def _set_destination(self):
-        dest_x = randint(0, 1000)  # temporary bounding box to prevent aimless wandering
-        dest_y = randint(1000,1600)
+        from game import game
+        structure = sample(game.structures, 1)[0]
+        dest_x = structure.x  # temporary bounding box to prevent aimless wandering
+        dest_y = structure.y
         self.destination = (dest_x, dest_y)
         #print("new destination: %s" % (str(self.destination)))
 

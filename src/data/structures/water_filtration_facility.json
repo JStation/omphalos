@@ -2,7 +2,6 @@
   "id": "water_filtration_facility",
   "name": "Water Filtration Facility",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {

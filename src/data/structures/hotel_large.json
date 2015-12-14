@@ -2,7 +2,6 @@
   "id": "hotel_large",
   "name": "Large Hotel",
   "requires": {
-    "money": 1500,
     "iron": 100
   },
   "consumes": {

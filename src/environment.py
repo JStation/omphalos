@@ -39,6 +39,10 @@ class EnvironmentVariable(object):
     def amount(self):
         return self._amount
 
+    @property
+    def value(self):
+        return self._amount
+
     def add(self, amount):
         self._amount += amount
         if self.max is not None and self._amount > self.max:

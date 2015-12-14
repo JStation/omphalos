@@ -16,6 +16,7 @@ class StructureFactory(object):
     def __init__(self, **kwargs):
         self._structure_id = kwargs['id']
         self._name = kwargs['name']
+        self._tile_requirements = kwargs.get('requires_tile', {})
         self._build_requirements = kwargs.get('requires', {})
         self._produces = kwargs.get('produces', {})
         self._consumes = kwargs.get('consumes', {})
@@ -45,6 +46,10 @@ class StructureFactory(object):
                 ], self._animation_speed)
             y -= 1
 
+
+    @property
+    def tile_requirements(self):
+        return self._tile_requirements
 
     @property
     def structure_id(self):
@@ -99,7 +104,7 @@ class StructureFactory(object):
                     self._name,
                     amount,
                     asset.name,
-                    player_asset.quantity
+                    int(player_asset.quantity)
                 ))
 
         for asset_id, amount in self._build_requirements.items():

@@ -1,12 +1,14 @@
 {
   "id": "iron_extractor",
   "name": "Iron Extractor",
+  "requires_tile": {
+    "resources":"resource:iron"
+  },
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {
-    "iron_ore": 5
+    "iron_ore": 15
   },
   "consumes": {
     "power": 1

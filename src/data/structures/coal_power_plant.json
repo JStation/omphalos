@@ -2,14 +2,13 @@
   "id": "coal_power_plant",
   "name": "Coal Power Plant",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {
     "power": 5
   },
   "consumes": {
-    "coal": 1
+    "coal": 5
   },
   "environment": {
     "pollution": 10

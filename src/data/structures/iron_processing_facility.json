@@ -2,14 +2,13 @@
   "id": "iron_processing_facility",
   "name": "Iron Processing Facility",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {
-    "iron": 1
+    "iron": 5
   },
   "consumes": {
-    "iron_ore": 2
+    "iron_ore": 2.5
   },
   "environment": {
     "pollution": 2

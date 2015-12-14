@@ -2,7 +2,6 @@
   "id": "toxic_water_extractor",
   "name": "Toxic Water Extractor",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {

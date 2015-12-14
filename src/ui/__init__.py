@@ -215,9 +215,12 @@ class UIManager(object):
             game.to_update.remove(self._build_action_instance)
             self._build_action_instance.delete()
         structure_factory = game.get_structure(structure_id)
-        self._build_action_instance = structure_factory.build(x=0, y=0, batch=game.structures)
+        self._build_action_instance = structure_factory.build(x=0, y=0, batch=game.structure_batch)
         self._build_action_instance.opacity = 150
         game.to_update.add(self._build_action_instance)
+
+    def get_map_from_mouse_pos(self, x, y):
+        return -(self._frame_offset[0]-x), -(self._frame_offset[1]-y)
 
     def on_mouse_motion(self, x, y, dx, dy):
         if self._build_action_instance:
@@ -232,6 +235,19 @@ class UIManager(object):
             structure_factory = game.get_structure(self._build_action_instance.structure_id)
             if game.will_collide(self._build_action_instance):
                 return
+
+            # Resource requirements
+            if len(structure_factory.tile_requirements):
+                x, y = self.get_map_from_mouse_pos(x, y)
+                for layer, requirement in structure_factory.tile_requirements.items():
+                    prop, val = requirement.split(':')
+                    tile = game.get_tile_at(layer, x, y)
+                    if not tile or tile.properties.get(prop, None) != val:
+                        game.message_queue.create_message('This structure has to be place on %s ' % val)
+                        return
+
+
+            # Asset requirements
             try:
                 structure_factory.pay()
             except AssetQuantityTooLittle as e:
@@ -239,15 +255,17 @@ class UIManager(object):
                 game.message_queue.create_message(str(e))
                 return
             self._build_action_instance.opacity = 255
+
+            game.structures.add(self._build_action_instance)
             game.collidable.add(self._build_action_instance)
             game.requires_upkeep.add(self._build_action_instance)
+
             if modifiers == pyglet.window.key.MOD_SHIFT:
                 structure_id = self._build_action_instance.structure_id
                 self._build_action_instance = None
                 self.start_build_action(structure_id)
             else:
                 self._build_action_instance = None
-
 
 
 ui_manager = UIManager()

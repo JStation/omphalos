@@ -2,14 +2,13 @@
   "id": "vegetable_processing_plant",
   "name": "Vegetable Processing Plant",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "produces": {
-    "food_processed": 10
+    "food_processed": 5
   },
   "consumes": {
-    "vegetables": 1
+    "vegetables": 10
   },
   "environment": {
     "pollution": 0.1

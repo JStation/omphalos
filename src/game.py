@@ -1,3 +1,4 @@
+from characters.human import Human
 from collections import OrderedDict
 import json
 from environment import Environment, EnvironmentVariable
@@ -6,6 +7,7 @@ import os
 from asset import Asset
 from player import Player
 import pyglet
+import random
 from structure import StructureFactory
 
 
@@ -22,6 +24,8 @@ class Game(object):
         self._player = Player()
         self._ui_actions = []
 
+        self._world_map = None
+
         self._load_assets()
         self._load_structures()
 
@@ -31,13 +35,17 @@ class Game(object):
         self._tiles = pyglet.graphics.Batch()
         self._humans = pyglet.graphics.Batch()
         self._characters = pyglet.graphics.Batch()
-        self._structures = pyglet.graphics.Batch()
+
+        self._structures = set()
+        self._structure_batch = pyglet.graphics.Batch()
         self._sprites = []
 
         # Default Player Assets
-        self._player.add_asset('power', 150)
-        self._player.add_asset('money', 25000)
-        self._player.add_asset('iron', 10000)
+        self._player.add_asset('power', 1150)
+        self._player.add_asset('money', 500)
+        self._player.add_asset('food_unhealthy', 200)
+        self._player.add_asset('iron', 1500)
+        self._player.add_asset('water', 100)
 
         # Message Queue
         self._message_queue = MessageHandler(x=15, y=15)
@@ -46,9 +54,25 @@ class Game(object):
         # Game message
         self._message_queue.create_message("Omphalos 2217")
 
+        # Temp variable
+        self._water_requirement = 100
+
     @property
     def message_queue(self):
         return self._message_queue
+
+    @property
+    def world_map(self):
+        return self._world_map
+
+    @world_map.setter
+    def world_map(self, world_map):
+        if self.world_map:
+            return
+        self._world_map = world_map
+
+    def get_tile_at(self, layer_name, x, y):
+        return self.world_map.get_tile_from_layer_at(layer_name, x, y)
 
     @property
     def player(self):
@@ -94,6 +118,10 @@ class Game(object):
         return self._structures
 
     @property
+    def structure_batch(self):
+        return self._structure_batch
+
+    @property
     def sprites(self):
         return self._sprites
 
@@ -104,6 +132,20 @@ class Game(object):
     def upkeep(self, dt):
         for obj in self._requires_upkeep:
             obj.upkeep(dt)
+
+        self.message_queue.create_message('The mood of your people is %s.' % self._environment.get_variable('mood').value)
+
+        if self.player.has_asset('water') and self.player.get_asset('water').quantity > self._water_requirement:
+            for structure in self.structures:
+                if structure.structure_id == 'teleportation_chamber':
+                    self.message_queue.create_message("YOU HAVE ENOUGH WATER FOR LIFE!")
+                    self._water_requirement *= 2
+                    for n in range(0, random.randint(self._water_requirement/20, self._water_requirement/10)):
+                        h = Human(x=structure.x, y=structure.y, batch=game.humans)
+                        # game.collidable.add(h)
+                        self.to_update.add(h)
+                        self.requires_upkeep.add(h)
+
 
     def _load_assets(self):
         for asset in Game.load_json_objects(self.PATH_ASSETS):

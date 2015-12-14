@@ -2,7 +2,6 @@
   "id": "home_medium",
   "name": "Medium Home",
   "requires": {
-    "money": 2500,
     "iron": 100
   },
   "consumes": {

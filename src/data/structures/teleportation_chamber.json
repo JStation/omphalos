@@ -1,0 +1,15 @@
+{
+  "id": "teleportation_chamber",
+  "name": "Teleportation Chamber",
+  "requires": {
+    "iron": 250
+  },
+  "consumes": {
+    "power": 1
+  },
+  "image":"assets/structures/teleportation-chamber.png",
+  "width":32,
+  "height":64,
+  "hit_box_width":32,
+  "hit_box_height":32
+}

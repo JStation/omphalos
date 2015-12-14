@@ -162,6 +162,22 @@ class TileMap(object):
         for layer in self.layers:
             if not layer.is_object_group:
                 layer.decode()
+
+    def get_layer(self, name):
+        for layer in self.layers:
+            if layer.name == name:
+                return layer
+
+    def get_tile_from_layer_at(self, layer_name, x, y):
+        tile_x = int(abs(x) / self.tilewidth)
+        tile_y = self.height-int(abs(y) / self.tileheight)
+        layer = self.get_layer(layer_name)
+        tile_id = layer.content2D[tile_x][tile_y]-1
+        print('trying to find', tile_id, tile_x, tile_y)
+        return self.named_tile_sets['colony-db32-grounds-ready'].get_tile_by_id(tile_id)
+
+
+
 #  -----------------------------------------------------------------------------
 
 
@@ -206,6 +222,13 @@ class TileSet(object):
         self.properties = {}
         self.tileheight = 0
         self.tilewidth = 0
+
+    def get_tile_by_id(self, id):
+        id = int(id)
+        for tile in self.tiles:
+            print(tile.id)
+            if int(tile.id) == id:
+                return tile
 
 #  -----------------------------------------------------------------------------
 

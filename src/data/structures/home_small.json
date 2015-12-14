@@ -2,7 +2,6 @@
   "id": "home_small",
   "name": "Small Home",
   "requires": {
-    "money": 1500,
     "iron": 100
   },
   "consumes": {

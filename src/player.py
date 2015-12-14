@@ -36,6 +36,9 @@ class Player(object):
 
         return None
 
+    def has_asset(self, asset_id):
+        return bool(self.get_asset(asset_id))
+
     def add_asset(self, asset_id, quantity=1):
         player_asset = self.get_asset(asset_id)
 
