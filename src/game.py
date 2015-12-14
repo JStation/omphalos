@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import json
 from environment import Environment, EnvironmentVariable
+from labels import MessageHandler
 import os
 from asset import Asset
 from player import Player
@@ -37,6 +38,17 @@ class Game(object):
         self._player.add_asset('power', 150)
         self._player.add_asset('money', 25000)
         self._player.add_asset('iron', 10000)
+
+        # Message Queue
+        self._message_queue = MessageHandler(x=15, y=15)
+        self._to_update.add(self._message_queue)
+
+        # Game message
+        self._message_queue.create_message("Omphalos 2217")
+
+    @property
+    def message_queue(self):
+        return self._message_queue
 
     @property
     def player(self):

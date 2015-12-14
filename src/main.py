@@ -13,7 +13,7 @@ from labels import MessageHandler
 
 from game import game
 
-MAP_FILE = "maps/test2.tmx"
+MAP_FILE = "maps/big_n_boring.tmx"
 FULLSCREEN_MODE = False
 # Sounds
 pyglet.options['audio'] = ('openal', 'silent')
@@ -70,7 +70,7 @@ def on_draw():
     glLoadIdentity()
     glTranslatef(0, 0, 0.0)
     ui_manager.batch.draw()
-    message_queue.draw()
+    game.message_queue.draw()
 
 keys = pyglet.window.key.KeyStateHandler()
 window.push_handlers(keys)
@@ -89,7 +89,7 @@ def on_mouse_motion(x, y, dx, dy):
 @window.event
 def on_key_release(symbol, modifiers):
     if symbol == pyglet.window.key.T:
-        message_queue.create_message('Another Message!')
+        game.message_queue.create_message('Another Message!')
     elif symbol == pyglet.window.key.M:
         try:
             bg_music.play()
@@ -127,7 +127,7 @@ game.to_update.add(ui_manager)
 
 
 # manually instantiated entities
-mech = Mech(x=50,y=1500, batch=game.characters)
+mech = Mech(x=550,y=1500, batch=game.characters)
 game.collidable.add(mech)
 game.to_update.add(mech)
 
@@ -135,12 +135,6 @@ for n in range(100):
     h = Human(x=360, y=1220, batch=game.humans)
     game.collidable.add(h)
     game.to_update.add(h)
-
-message_queue = MessageHandler(x=15, y=15)
-game.to_update.add(message_queue)
-
-#test message
-message_queue.create_message("Omphalos 2217")
 
 for group_num, layer in enumerate(world_map.layers):
     if not layer.visible:

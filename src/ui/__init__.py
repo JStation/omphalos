@@ -236,7 +236,7 @@ class UIManager(object):
                 structure_factory.pay()
             except AssetQuantityTooLittle as e:
                 # Display labebl
-                print(e)
+                game.message_queue.create_message(str(e))
                 return
             self._build_action_instance.opacity = 255
             game.collidable.add(self._build_action_instance)
