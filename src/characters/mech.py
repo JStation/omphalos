@@ -4,13 +4,13 @@ from game import game
 import pyglet
 from character import Character
 
-image = pyglet.image.load('assets/characters/mech.png')
+image = pyglet.image.load('assets/characters/mech_32.png')
 
 
 class Mech(Character):
     def __init__(self, *args, **kwargs):
-        self._width = 64
-        self._height = 64
+        self._width = 32
+        self._height = 32
         self.frame_size = (self._width, self._height)
         frame_period = 0.024
         sequences = {
@@ -26,7 +26,7 @@ class Mech(Character):
         }
         super(Mech, self).__init__(sequences, *args, **kwargs)
 
-        self._collision_modifier = 25
+        self._collision_modifier = 5
 
     def update(self, dt):
         if self._sequence_name == 'walk_n':

@@ -68,7 +68,7 @@ class UIResourceList(object):
         self._resource_menu = Manager(
             content,
             window=self.window, batch=self.batch,
-            anchor=ANCHOR_TOP,
+            anchor=ANCHOR_TOP_LEFT,
             theme=resource_menu_theme
         )
 
