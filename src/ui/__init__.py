@@ -116,7 +116,8 @@ class UIResourceItem(Document):
         return "%s: %s" % (self._asset.name, int(self._player_asset.quantity))
 
     def update(self, dt):
-        self.set_text(self.get_display())
+        if self.is_loaded:
+            self.set_text(self.get_display())
 
     def unload(self):
         game.to_update.remove(self)

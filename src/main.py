@@ -95,10 +95,7 @@ def on_key_release(symbol, modifiers):
             bg_music.play()
         except NameError:
             print("AVBin not available for audio!")
-
-
-
-
+    keys[symbol] = False
 
 def update(dt):
     if keys[pyglet.window.key.A] and keys[pyglet.window.key.W]:
