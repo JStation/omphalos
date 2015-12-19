@@ -82,6 +82,10 @@ class MultipleAnimationSprite(Sprite):
             return self._hit_box[1]
         return self._height - self._collision_modifier
 
+    @property
+    def check_collisions(self):
+        return True
+
 class ChainableAnimation(Animation):
     def __init__(self, next_sequence, default_period, *args, **kwargs):
         self.next_sequence = next_sequence

@@ -43,7 +43,8 @@ class Game(object):
         # Default Player Assets
         self._player.add_asset('power', 150)
         self._player.add_asset('money', 1500)
-        self._player.add_asset('iron', 500)
+        self._player.add_asset('iron', 5000)
+        self._player.add_asset('water', 500)
 
         # Message Queue
         self._message_queue = MessageHandler(x=15, y=15)
@@ -81,9 +82,26 @@ class Game(object):
         return self._collidable
 
     def will_collide(self, to_check, at_x=None, at_y=None):
+        if not to_check.check_collisions:
+            return False
+
+        to_skip = []
+        if hasattr(to_check, 'does_not_collide_with') and to_check.does_not_collide_with:
+            to_skip = to_check.does_not_collide_with
+
         for obj in self.collidable:
-            if obj == to_check:
+            if not obj.check_collisions or obj == to_check:
                 continue
+
+            skip = False
+
+            for obj_type in to_skip:
+                if isinstance(obj, obj_type):
+                    skip = True
+
+            if skip:
+                continue
+
             if obj.hit_test(to_check, at_x, at_y):
                 return True
 
@@ -140,8 +158,8 @@ class Game(object):
                     self.message_queue.create_message("YOU HAVE ENOUGH WATER FOR LIFE!")
                     self._water_requirement *= 2
                     for n in range(0, random.randint(self._water_requirement/20, self._water_requirement/10)):
-                        h = Human(x=structure.x, y=structure.y, batch=game.humans)
-                        # game.collidable.add(h)
+                        h = Human(x=structure.center()[0], y=structure.y+1, batch=game.humans)
+                        game.collidable.add(h)
                         self.to_update.add(h)
                         self.requires_upkeep.add(h)
 

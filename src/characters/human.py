@@ -4,6 +4,7 @@ from player import AssetQuantityTooLittle
 import pyglet
 from random import randint, choice, random, sample
 from character import Character
+from structure import Structure
 
 human_image = pyglet.image.load('assets/characters/human2.png')
 
@@ -11,8 +12,10 @@ blood1 = pyglet.image.load('assets/characters/blood.png')
 blood2 = pyglet.image.load('assets/characters/blood2.png')
 blood_images = [blood1, blood2]
 
+
 class Human(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
+        from characters.mech import Mech
         super(Human, self).__init__(human_image, *args, **kwargs)
         self._set_destination()
         self._set_waiting()
@@ -25,6 +28,11 @@ class Human(pyglet.sprite.Sprite):
         self._width = self._get_width()
         self.hit_width = self._width
         self.hit_height = self._height
+        self.does_not_collide_with = [Mech,]
+
+    @property
+    def check_collisions(self):
+        return True
 
     def update(self, dt):
         if not self.alive:

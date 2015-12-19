@@ -1,8 +1,10 @@
 from animation import ChainableAnimation
+from characters.human import Human
 from constants import ANIM_LOOP
 from game import game
 import pyglet
 from character import Character
+from structure import Structure
 
 image = pyglet.image.load('assets/characters/mech_32.png')
 
@@ -26,7 +28,12 @@ class Mech(Character):
         }
         super(Mech, self).__init__(sequences, *args, **kwargs)
 
+        self.collides_with = [Human,Structure,]
         self._collision_modifier = 5
+
+    @property
+    def check_collisions(self):
+        return self._sequence_name != 'idle'
 
     def update(self, dt):
         if self._sequence_name == 'walk_n':
