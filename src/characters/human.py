@@ -21,8 +21,6 @@ class Human(pyglet.sprite.Sprite):
         self._set_waiting()
         self.alive = True
 
-
-
         # stuff for collision
         self._height = self._get_height()
         self._width = self._get_width()
@@ -136,4 +134,3 @@ class Human(pyglet.sprite.Sprite):
     def die(self):
         self._set_image(choice(blood_images))
         self.alive = False
-

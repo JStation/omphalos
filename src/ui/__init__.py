@@ -266,6 +266,9 @@ class UIManager(object):
                 self.start_build_action(structure_id)
             else:
                 self._build_action_instance = None
+            return True
+        else:
+            return False
 
 
 ui_manager = UIManager()

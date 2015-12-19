@@ -66,6 +66,7 @@ def on_draw():
     game.tiles.draw()
     game.humans.draw()
     game.characters.draw()
+    game.projectile_batch.draw()
     game.structure_batch.draw()
 
     glLoadIdentity()
@@ -81,7 +82,9 @@ resources.load(world_map)
 
 @window.event
 def on_mouse_press(x, y, button, modifiers):
-    ui_manager.on_mouse_press(x, y, button, modifiers)
+    if not ui_manager.on_mouse_press(x, y, button, modifiers):
+        x,y = ui_manager.get_map_from_mouse_pos(x, y)
+        mech.shoot(x,y)
 
 @window.event
 def on_mouse_motion(x, y, dx, dy):

@@ -1,6 +1,9 @@
 from animation import ChainableAnimation
 from characters.human import Human
+from characters.projectiles import Projectile
+from characters.projectiles.laser_beam import LaserBeam
 from constants import ANIM_LOOP
+from utils import Vector2
 from game import game
 import pyglet
 from character import Character
@@ -69,3 +72,8 @@ class Mech(Character):
             self._dy = 0
 
         super(Mech, self).update(dt)
+
+    def shoot(self, x,y):
+        center = self.center()
+        laser = LaserBeam(Vector2(center[0], center[1]), Vector2(x,y), Projectile(500), batch=game.projectile_batch)
+        game.to_update.add(laser)

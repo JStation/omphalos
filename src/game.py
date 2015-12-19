@@ -36,6 +36,9 @@ class Game(object):
         self._humans = pyglet.graphics.Batch()
         self._characters = pyglet.graphics.Batch()
 
+        self._projectiles = set()
+        self._projectile_batch = pyglet.graphics.Batch()
+
         self._structures = set()
         self._structure_batch = pyglet.graphics.Batch()
         self._sprites = []
@@ -49,6 +52,7 @@ class Game(object):
         # Message Queue
         self._message_queue = MessageHandler(x=15, y=15)
         self._to_update.add(self._message_queue)
+        self._to_update_remove = set()
 
         # Game message
         self._message_queue.create_message("Omphalos 2217")
@@ -118,6 +122,10 @@ class Game(object):
         return self._to_update
 
     @property
+    def to_update_remove(self):
+        return self._to_update_remove
+
+    @property
     def tiles(self):
         return self._tiles
 
@@ -138,12 +146,26 @@ class Game(object):
         return self._structure_batch
 
     @property
+    def projectiles(self):
+        return self._projectiles
+
+    @property
+    def projectile_batch(self):
+        return self._projectile_batch
+
+    @property
     def sprites(self):
         return self._sprites
 
     def update(self, dt):
         for obj in self._to_update:
             obj.update(dt)
+        for obj in self._to_update_remove:
+            try:
+                self._to_update.remove(obj)
+            except KeyError:
+                continue
+        self._to_update_remove = set()
 
     def upkeep(self, dt):
         for obj in self._requires_upkeep:
